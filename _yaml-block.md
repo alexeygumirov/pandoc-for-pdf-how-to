@@ -1,7 +1,7 @@
 ---
  title: "Pandoc for PDF How-To"
  author: "Alexey Gumirov"
- date: "17 December 2018"
+ date: "18 December 2018"
  subtitle: "How-to generate nice PDF documentation from Markdown"
  titlepage: true
  titlepage-color: "FFFFFF"

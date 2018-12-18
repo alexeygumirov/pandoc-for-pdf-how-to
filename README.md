@@ -127,6 +127,33 @@ Additional useful options of the **pandoc** command are:
 - `--number-section`: Automatically creates enumerated headers. It is used in the [Lesson Learned - vEPC example](#Lessons-Learned-vEPC-example) below.
 - `--default-image-extension`: If you want Pandoc to insert only one type of images, e.g. PNG, then you shall add `--default-image-extension png` in the command line.
 
+#### Convertion of muptiple files
+
+When you create large amount of content, it is not convinient to use one large MarkDown file for it. Then it is better to split it in multiple MarkDown files and organize them in a separate folder using names with leading sequence numbers, like here:
+
+- Create folder, e.g. **"content"**.
+- Put there Markdown files which you want to combine into one PDF.
+- Name files with numbers in the order they shall be concatinated into one PDF. Example:
+
+```sh
+> ~/ $ ls -lh content/
+total 197K
+-rwxrwxrwx 1 root root   0 Dec 18 18:49 00-Intro.md
+-rwxrwxrwx 1 root root   0 Dec 18 18:47 01-Chapter_A.md
+-rwxrwxrwx 1 root root   0 Dec 18 18:47 02-Chapter_B.md
+-rwxrwxrwx 1 root root   0 Dec 18 18:49 03-Chapter_C.md
+-rwxrwxrwx 1 root root   0 Dec 18 18:50 99-Appendix.md
+```
+
+- Apply following Pandoc command:
+
+```sh
+pandoc -s -S -o $DEST.pdf --template eisvogel \
+    --toc --dpi=300 -V lang=en-US _yaml-block.md content/*.md
+```
+
+This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
+
 ### Important notes about MarkDown file formatting for PDF processing
 
 #### Unordered Lists and sub-lists indentation
