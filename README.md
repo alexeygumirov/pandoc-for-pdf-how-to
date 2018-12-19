@@ -174,8 +174,8 @@ a) Link format that does NOT work:   **`![Name of the resourse](Link)`**.
 
 b) Links that WORKS:   **`[Name of the resource](Link)`**.
 
-The problem is that by the Markdown guidelines using exclamation mark before URL is not appropriate. Exclamation mark is used for links to images only. But GitLab engine does not give you an error, it just treats such links as links which opens in the new tab or window in the browser.
-Therefore, to avoid compilation errors in the **pdflatex** engine (which is used by **pandoc**), please use (b) type of URL formatting, whcih is compliant with Markdown standard.
+The problem is that by the Markdown guidelines using exclamation mark before URL is not appropriate. Exclamation mark is used for links to images only. But GitHub engine does not give you an error, it just treats such links as links which opens in the new tab or window in the browser.
+Therefore, to avoid compilation errors in the **pdflatex** engine (which is used by **pandoc**), please use (b) type of URL formatting, which is compliant with Markdown standard.
 
 ## Examples
 
