@@ -36,7 +36,7 @@ Because of the size of the **texlive** packet (`~4,5GB`) I do generation of the 
 
 #### YAML Block for LaTex template
 
-This YAML block in the beginning of the MarkDown file defines parameters used by the Pandoc engine and relevant LaTex template (in my case - **Eisvogel**). This particular example below instructs Pandoc to produce PDF file with the Cover page (*titlepage: __true__*) and change color of the line on the cover page. Another important parameter is **logo** - it defines path to file with the logo you want to put on the cover page.
+This YAML block in the beginning of the MarkDown file defines parameters used by the Pandoc engine and relevant LaTex template (in my case - **Eisvogel**). This particular example below instructs Pandoc to produce PDF file with the Cover page (**titlepage**: **`true`**) and change color of the line on the cover page. Another important parameter is **logo** - it defines path to file with the logo you want to put on the cover page.
 
 ```YAML
  title: "Pandoc for PDF How-To"
@@ -58,7 +58,9 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
 
 Parameter **links-as-notes** enables putting of the URL links in the footnotes of the page.
 
-Because GitHub does not support YAML header in the main file, I set it up in the separate file in the root folder of the project. I call it **_yaml-block.md**.
+Parameters **lof** and **lot** are responsible for the creation of *list of figures* and *list of tables* respectively.
+
+Because GitHub does not support YAML header in the main file, I set it up in the separate file in the root folder of the project. I call it `_yaml-block.md`.
 
 #### Images preparation
 
@@ -86,7 +88,7 @@ convert $SOURCE_IMG_FILE  -set units PixelsPerInch \
     -resample 300 -resize 1700x -density 300 $TARGET_IMG_FILE.png
 ```
 
-It is important to mention, that order of options does matter. The instruction above makes steps in the following order:
+It is important to mention that order of options does matter. The instruction above makes steps in the following order:
 
 1. `-set units PixelsPerInch`: Sets density units in Pixels per Inch instead of default `PixelsperCantimeter`.
 2. `-resample 300`: Changes resolution of the image from its current DPI (PPI) to 300 DPI (PPI). It is not just change of meta-data, this parameter makes **convert** to re-process image.
@@ -166,12 +168,13 @@ While using of standard tab (4 spaces) indent is not a mistake, some programs (i
 
 #### Links
 
-If your Markdown file has to be processed into the PDF, then better not to use format of links, which open in a separate window, e.g.:
+If your Markdown file has to be processed into the PDF, then please pay attention to the format of links you use:
 
 a) Link format that does NOT work:   **`![Name of the resourse](Link)`**.
+
 b) Links that WORKS:   **`[Name of the resource](Link)`**.
 
-The problem is that by the Markdown guidelines using exclamation mark before URL is not appropriate. But GitLab engine does not give you an error, it just treats such links as links which open in the new tab or window in the browser.
+The problem is that by the Markdown guidelines using exclamation mark before URL is not appropriate. Exclamation mark is used for links to images only. But GitLab engine does not give you an error, it just treats such links as links which opens in the new tab or window in the browser.
 Therefore, to avoid compilation errors in the **pdflatex** engine (which is used by **pandoc**), please use (b) type of URL formatting, whcih is compliant with Markdown standard.
 
 ## Examples
