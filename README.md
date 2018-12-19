@@ -60,7 +60,7 @@ Parameter **links-as-notes** enables putting of the URL links in the footnotes o
 
 Parameters **lof** and **lot** are responsible for the creation of *list of figures* and *list of tables* respectively.
 
-Because GitHub does not support YAML header in the main file, I set it up in the separate file in the root folder of the project. I call it `_yaml-block.md`.
+Because MarkDown for GitHub does not support YAML header in the main file, I set it up in the separate `_yaml-block.yaml` file in the root folder of the project.
 
 #### Images preparation
 
@@ -99,7 +99,18 @@ It is important to mention that order of options does matter. The instruction ab
 
 ```sh
 pandoc -s -S -o $DEST.pdf --template eisvogel \
-    --toc --dpi=300 -V lang=en-US _yaml-block.md $SOURCE.md
+    --toc --dpi=300 -V lang=en-US _yaml-block.yaml $SOURCE.md
+```
+
+If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```.
+
+Then **pandoc** command will look like that:
+
+```sh
+DATE=$(date "+%d %B %Y")
+pandoc -s -S -o $DEST.pdf --template eisvogel \
+    --toc --dpi=300 -M date="$DATE" \
+    -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
 
 Parameters of the **pandoc** command mean following:
@@ -126,7 +137,7 @@ Parameters of the **pandoc** command mean following:
 Additional useful options of the **pandoc** command are:
 
 - `--listings`: It creates nice presentation of the raw code (like shell code or programming code).
-- `--number-section`: Automatically creates enumerated headers. It is used in the [Lesson Learned - vEPC example](#Lessons-Learned-vEPC-example) below.
+- `--number-section`: Automatically creates enumerated headers. 
 - `--default-image-extension`: If you want Pandoc to insert only one type of images, e.g. PNG, then you shall add `--default-image-extension png` in the command line.
 
 #### Convertion of muptiple files
@@ -151,7 +162,7 @@ total 197K
 
 ```sh
 pandoc -s -S -o $DEST.pdf --template eisvogel \
-    --toc --dpi=300 -V lang=en-US _yaml-block.md content/*.md
+    --toc --dpi=300 -V lang=en-US _yaml-block.yaml content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
@@ -184,12 +195,14 @@ Therefore, to avoid compilation errors in the **pdflatex** engine (which is used
 This page [pandoc-2-pdf-how-to.pdf][LINK 3]. Generated with the following command (in the project directory):
 
 ```sh
+DATE=$(date "+%d %B %Y")
 pandoc -s -S -o pandoc-2-pdf-how-to.pdf --template eisvogel \
      --toc --listings --dpi=300 \
+     -M date="$DATE" \
      -V lang=en-US _yaml-block.md README.md
 ```
 
-The link to [_yaml-block.md][LINK 4] file is [here][LINK 4].
+The link to [_yaml-block.yaml][LINK 4] file is [here][LINK 4].
 
 <!-- URLs and Links -->
 
@@ -198,4 +211,4 @@ The link to [_yaml-block.md][LINK 4] file is [here][LINK 4].
 
 [LINK 2]: pandoc/templates/eisvogel.latex
 [LINK 3]: pandoc-2-pdf-how-to.pdf
-[LINK 4]: _yaml-block.md
+[LINK 4]: _yaml-block.yaml
