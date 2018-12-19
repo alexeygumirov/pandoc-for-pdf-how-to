@@ -8,13 +8,13 @@
 SOURCE=$1
 INITDIR=$PWD
 
-if [ ! -e "$SOURCE" ] ;
+if [ ! -e "$SOURCE" ]; # First check if the target does exist in the file system
 then
 	echo "Target does not exist"
 	exit 1
 fi
 
-if [ -d $SOURCE ]; then
+if [ -d $SOURCE ]; then # Checking if target is a directory.
 	cd $SOURCE
 	for file in *
 	do
@@ -22,7 +22,7 @@ if [ -d $SOURCE ]; then
 	done
 	cd $INITDIR	
 	exit 0
-elif [ ! -d $SOURCE ]; then
+elif [ ! -d $SOURCE ]; then # Checking, if target is not a directory (e.g. file, device, etc.)
 	echo "Error! Please enter directory as input."
 	exit 1
 fi
