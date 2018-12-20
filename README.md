@@ -38,7 +38,7 @@ Because of the size of the **texlive** packet (`~4,5GB`) I do generation of the 
 
 This YAML block in the beginning of the MarkDown file defines parameters used by the Pandoc engine and relevant LaTex template parameters. This particular example below instructs Pandoc to produce PDF file with the Cover page (**titlepage**: **`true`**) and change color of the line on the cover page. Another important parameter is **logo** - it defines path to file with the logo you want to put on the cover page.
 
-```YAML
+```yaml
  title: "Pandoc for PDF How-To"
  author: "Alexey Gumirov"
  date: "17 December 2018"
