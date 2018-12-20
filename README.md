@@ -23,7 +23,7 @@ To avoid possible issues with **pdflatex** engine I did full installation of **t
 
 In Debian family (with **apt**):
 
-```shell
+```sh
 sudo apt-get update
 sudo apt-get install pandoc
 sudo apt-get install texlive-full
