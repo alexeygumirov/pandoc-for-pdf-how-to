@@ -206,7 +206,7 @@ This page [pandoc-2-pdf-how-to.pdf][LINK 4]. Generated with the following comman
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o pandoc-2-pdf-how-to.pdf
     -f markdown_github+yaml_metadata_block \
-    --template eisvogel_mod --toc --listings \
+    --template eisvogel_mod --toc --listings --number-section\
     --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.md README.md
 ```
