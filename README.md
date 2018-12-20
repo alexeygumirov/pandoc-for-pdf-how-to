@@ -69,21 +69,21 @@ If you have images with different DPI (especially GIF files), then  use the foll
 
 To re-sample image to 300 DPI:
 
-```sh
+```console
 convert $SOURCE_IMG_FILE -units PixelsPerInch \
     -resample 300 $TARGET_IMG_FILE.png
 ```
 
 After rasampling image has to be brought to the proper size. Command resizes picture to be 1700 pixels horizontally and sets DPI meta-data to 300.
 
-```sh
+```console
 convert $SOURCE_IMG_FILE -units PixelsPerInch \
     -resize 1700x -density 300 $TARGET_IMG_FILE.png
 ```
 
 But if you are not afraid, then all can be done in one command:
 
-```sh
+```console
 convert $SOURCE_IMG_FILE  -set units PixelsPerInch \
     -resample 300 -resize 1700x -density 300 $TARGET_IMG_FILE.png
 ```
@@ -97,7 +97,7 @@ It is important to mention that order of options does matter. The instruction ab
 
 #### Pandoc command
 
-```sh
+```console
 pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
     --template eisvogel_mod --toc --dpi=300 \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
@@ -107,7 +107,7 @@ If you want to put current date in the cover page automatically, then you can ad
 
 Then **pandoc** command will look like that:
 
-```sh
+```console
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
     --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
@@ -155,7 +155,7 @@ When you create large amount of content, it is not convinient to use one large M
 - Put there Markdown files which you want to combine into one PDF.
 - Name files with numbers in the order they shall be concatinated into one PDF. Example:
 
-```sh
+```console
 > ~/ $ ls -lh content/
 total 197K
 -rwxrwxrwx 1 root root   0 Dec 18 18:49 00-Intro.md
@@ -167,7 +167,7 @@ total 197K
 
 - Apply following Pandoc command:
 
-```sh
+```console
 pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
     --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
     _yaml-block.yaml content/*.md
@@ -202,7 +202,7 @@ Therefore, to avoid compilation errors in the **pdflatex** engine (which is used
 
 This page [pandoc-2-pdf-how-to.pdf][LINK 4]. Generated with the following command (in the project directory):
 
-```sh
+```console
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o pandoc-2-pdf-how-to.pdf
     -f markdown_github+yaml_metadata_block \
