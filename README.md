@@ -189,9 +189,9 @@ While using of standard tab (4 spaces) indent is not a mistake, some programs (i
 
 If your Markdown file has to be processed into the PDF, then please pay attention to the format of links you use:
 
-a) Link format that does NOT work:   **`![Name of the resourse](Link)`**.
+a) Link format that does NOT WORK:   **`![Name of the resourse](Link)`**.
 
-b) Links that WORKS:   **`[Name of the resource](Link)`**.
+b) Link format that WORKS:   **`[Name of the resource](Link)`**.
 
 The problem is that by the [Markdown guidelines][URL GitHub MD007] using exclamation mark before URL is not appropriate. Exclamation mark is used for links to images only. But GitHub engine does not give you an error, it just treats such links as links which opens in the new tab or window in the browser.
 Therefore, to avoid compilation errors in the **pdflatex** engine (which is used by **pandoc**), please use (b) type of URL formatting, which is compliant with Markdown standard.
