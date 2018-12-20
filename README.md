@@ -120,7 +120,7 @@ Parameters of the **pandoc** command mean following:
 - `-S`: `--smart`
 
     - Produce  typographically  correct  output,  converting  straight  quotes  to  curly  quotes, --- to em-dashes, -- to en-dashes, and ... to   ellipses.  Nonbreaking spaces are inserted after certain abbreviations, such as “Mr.” (Note: This option is  selected  automatically  when   the output format is latex or context, unless `--no-tex-ligatures` is used.  It has no effect for latex input.)
-    > - In newer versions of **pandoc** this switch was removed and you shall use `+smart` key in the `-f` switch.
+    > - In newer versions of **pandoc** this switch was removed and you shall use `+smart` extension in the `-f` switch.
 
 - `-f FORMAT` or `-r FORMAT`:
 
