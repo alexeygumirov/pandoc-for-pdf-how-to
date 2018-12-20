@@ -8,8 +8,8 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
 
 - **pandoc**
 
-    - template: Original web-site [eisvogel.latex][URL 1].
-    - The same template file in this project repository in our [GitLab][LINK 2]
+    - template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. The only change I did is I put `subtitle` in the footer instead of `author`.
+    - Both templates you can find i the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
 - **texlive**
 - **convert**
@@ -36,7 +36,7 @@ Because of the size of the **texlive** packet (`~4,5GB`) I do generation of the 
 
 #### YAML Block for LaTex template
 
-This YAML block in the beginning of the MarkDown file defines parameters used by the Pandoc engine and relevant LaTex template (in my case - **Eisvogel**). This particular example below instructs Pandoc to produce PDF file with the Cover page (**titlepage**: **`true`**) and change color of the line on the cover page. Another important parameter is **logo** - it defines path to file with the logo you want to put on the cover page.
+This YAML block in the beginning of the MarkDown file defines parameters used by the Pandoc engine and relevant LaTex template parameters. This particular example below instructs Pandoc to produce PDF file with the Cover page (**titlepage**: **`true`**) and change color of the line on the cover page. Another important parameter is **logo** - it defines path to file with the logo you want to put on the cover page.
 
 ```YAML
  title: "Pandoc for PDF How-To"
@@ -98,7 +98,7 @@ It is important to mention that order of options does matter. The instruction ab
 #### Pandoc command
 
 ```sh
-pandoc -s -S -o $DEST.pdf --template eisvogel \
+pandoc -s -S -o $DEST.pdf --template eisvogel_mod \
     --toc --dpi=300 -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
 
@@ -108,7 +108,7 @@ Then **pandoc** command will look like that:
 
 ```sh
 DATE=$(date "+%d %B %Y")
-pandoc -s -S -o $DEST.pdf --template eisvogel \
+pandoc -s -S -o $DEST.pdf --template eisvogel_mod \
     --toc --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -161,7 +161,7 @@ total 197K
 - Apply following Pandoc command:
 
 ```sh
-pandoc -s -S -o $DEST.pdf --template eisvogel \
+pandoc -s -S -o $DEST.pdf --template eisvogel_mod \
     --toc --dpi=300 -V lang=en-US _yaml-block.yaml content/*.md
 ```
 
@@ -192,17 +192,17 @@ Therefore, to avoid compilation errors in the **pdflatex** engine (which is used
 
 ### This page example
 
-This page [pandoc-2-pdf-how-to.pdf][LINK 3]. Generated with the following command (in the project directory):
+This page [pandoc-2-pdf-how-to.pdf][LINK 4]. Generated with the following command (in the project directory):
 
 ```sh
 DATE=$(date "+%d %B %Y")
-pandoc -s -S -o pandoc-2-pdf-how-to.pdf --template eisvogel \
+pandoc -s -S -o pandoc-2-pdf-how-to.pdf --template eisvogel_mod \
      --toc --listings --dpi=300 \
      -M date="$DATE" \
      -V lang=en-US _yaml-block.md README.md
 ```
 
-The link to [_yaml-block.yaml][LINK 4] file is [here][LINK 4].
+The link to [_yaml-block.yaml][LINK 5] file is [here][LINK 5].
 
 <!-- URLs and Links -->
 
@@ -210,5 +210,6 @@ The link to [_yaml-block.yaml][LINK 4] file is [here][LINK 4].
 [URL GitHub MD007]: https://github.com/DavidAnson/markdownlint/blob/v0.11.0/doc/Rules.md#md007
 
 [LINK 2]: pandoc/templates/eisvogel.latex
-[LINK 3]: pandoc-2-pdf-how-to.pdf
-[LINK 4]: _yaml-block.yaml
+[LINK 3]: pandoc/templates/eisvogel_mod.latex
+[LINK 4]: pandoc-2-pdf-how-to.pdf
+[LINK 5]: _yaml-block.yaml
