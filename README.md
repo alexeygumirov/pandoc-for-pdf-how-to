@@ -103,7 +103,7 @@ pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
 
-If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```.
+If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` key: ```-M date="$DATE"```.
 
 Then **pandoc** command will look like that:
 
