@@ -213,6 +213,81 @@ pandoc -s -S -o pandoc-2-pdf-how-to.pdf
 
 The link to [_yaml-block.yaml][LINK 5] file is [here][LINK 5].
 
+## Building CI pipeline in the Gitlab
+
+I made my CI pipeline for GitLab which automatically creates PDF and stores it in the Gitlab artifactory when the content of MarkDown or YAML files is changed.
+
+### Folders structure
+
+Create following folders structure:
+
+```sh
+> $ tree -a
+./
+-- content/
+    -- 01-Introduction.md
+    -- 02-Chapter_A.md
+    -- 03-Chapter_B.md
+    -- {...}.md
+    -- img/
+        -- img_01.png
+        -- img_02.png
+        -- img_03.png
+-- logo/
+    -- dt-logo.png
+-- pandoc/
+    -- templates/
+        -- eisvogel.latex
+        -- eisvogel_mod.latex
+-- .gitlab-ci.yml
+-- _yaml-block.yaml
+-- README.md
+```
+
+- In `logo` folder I put `dt-logo.png` file. 
+- In the `content` folder I create `img` folder where I put all images/pictures I use in the content MarkDown files.
+- In the `pandoc/templates` folder I keep pandoc templates I use for PDF creation.
+
+To create PDF I use `knsit/pandoc` Docker container. This container has newer version of the **pandoc** therefore instead of `-S` key I use `+smart` extension in the `-f` key.
+
+The `.gitlab-ci.yml` has the following content:
+
+```yaml
+image: knsit/pandoc
+
+my_nice_pdf:
+  variables:
+    SOURCE_DIR: "content"
+    YAML_FILE: "_yaml-block.yaml"
+    DEST_FILE_NAME: "my_nice_document"
+    TEMPLATE: "eisvogel_mod"
+    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart"
+  script:
+    - DATE=$(date +_%Y-%m-%d)
+    - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE
+    - DATE=$(date "+%d %B %Y")
+    - pandoc --version
+    - mkdir -p ~/.pandoc/templates/
+    - cp pandoc/templates/$TEMPLATE.latex ~/.pandoc/templates
+    - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT \
+        --template $TEMPLATE -M date="$DATE" \
+        --listings --number-section --toc --dpi=300 -V lang=en-US \
+        $YAML_FILE $SOURCE_DIR/*.md >&1
+    - mkdir -p my_nice_pdf
+    - mv $DEST_FILE_NAME_DATE.pdf my_nice_pdf/
+  stage: build
+  artifacts:
+    paths:
+    - my_nice_pdf
+    expire_in: 6 month
+  only:
+    changes:
+    - *.yaml
+    - content/*.md
+```
+
+Parameter `changes` makes CI job run only when content of the YAML block or any of MarkDown files in the `content` folder is changed.
+
 <!-- URLs and Links -->
 
 [URL 1]: https://github.com/Wandmalfarbe/pandoc-latex-template
