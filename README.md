@@ -88,7 +88,7 @@ convert $SOURCE_IMG_FILE  -set units PixelsPerInch \
     -resample 300 -resize 1700x -density 300 $TARGET_IMG_FILE.png
 ```
 
-It is important to mention that order of options does matter. The instruction above makes steps in the following order:
+It is important to mention that the order of options does matter. The instruction above makes steps in the following order:
 
 1. `-set units PixelsPerInch`: Sets density units in Pixels per Inch instead of default `PixelsperCantimeter`.
 2. `-resample 300`: Changes resolution of the image from its current DPI (PPI) to 300 DPI (PPI). It is not just change of meta-data, this parameter makes **convert** to re-process image.
@@ -103,7 +103,7 @@ pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
 
-If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` key: ```-M date="$DATE"```.
+If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` option: ```-M date="$DATE"```.
 
 Then **pandoc** command will look like that:
 
@@ -114,18 +114,18 @@ pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
 
-Parameters of the **pandoc** command mean following:
+Options of the **pandoc** command mean following:
 
 - `-s`: Standalone document.
 - `-S`: `--smart`
 
     - Produce  typographically  correct  output,  converting  straight  quotes  to  curly  quotes, --- to em-dashes, -- to en-dashes, and ... to   ellipses.  Nonbreaking spaces are inserted after certain abbreviations, such as “Mr.” (Note: This option is  selected  automatically  when   the output format is latex or context, unless `--no-tex-ligatures` is used.  It has no effect for latex input.)
-    > - In newer versions of **pandoc** this switch was removed and you shall use `+smart` extension in the `-f` switch.
+    > - In newer versions of **pandoc** this switch was removed and you shall use `+smart` extension in the `-f` option.
 
 - `-f FORMAT` or `-r FORMAT`:
 
     - Specify input format. `FORMAT` can be `native` (native Haskell), `json` (JSON version of native AST), `markdown` (pandoc's extended Markdown), `markdown_strict`(original  unextended  Markdown),  `markdown_phpextra` (PHP Markdown Extra), `markdown_github` (GitHub-Flavored Markdown), `commonmark` (CommonMark Markdown), `textile` (Textile), `rst` (reStructuredText), `html` (HTML), `docbook` (DocBook), `t2t` (txt2tags), `docx` (docx), `odt` (ODT), `epub` (EPUB), `opml` (OPML), `org` (Emacs Org mode), `mediawiki` (MediaWiki markup), `twiki` (TWiki markup), `haddock` (Haddock markup), or `latex` (LaTeX).  If `+lhs` is appended to `markdown`, `rst`, `latex`, or `html`, the input will be treated as literate Haskell source. Markdown syntax extensions can be individually enabled or disabled by appending `+EXTENSION` or `-EXTENSION` to the format name.  So, for example, `markdown_strict+footnotes+definition_lists` is strict Markdown with footnotes and definition lists enabled, and `markdown-pipe_tables+hard_line_breaks`  is  pandoc's  Markdown  without pipe tables and with hard line breaks.
-    - Therefore if `-S` is not working, for this particular document the following line shall be used: `-f markdown_github+yaml_metadata_block+smart`.
+    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this: `-f markdown_github+yaml_metadata_block+smart`.
 
 - `--template FILE`: Use `FILE` as a custom template for the generated document.  Implies `--standalone`.
 - `--toc`: `--table-of-contents`
@@ -248,7 +248,7 @@ Create following folders structure:
 - In the `content` folder I create `img` folder where I put all images/pictures I use in the content MarkDown files.
 - In the `pandoc/templates` folder I keep pandoc templates I use for PDF creation.
 
-To create PDF I use `knsit/pandoc` Docker container. This container has newer version of the **pandoc** therefore instead of `-S` key I use `+smart` extension in the `-f` key.
+To create PDF I use `knsit/pandoc` Docker container. This container has newer version of the **pandoc** therefore instead of `-S` optoin I use `+smart` extension in the `-f` option.
 
 The `.gitlab-ci.yml` has the following content:
 
