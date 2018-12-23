@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# This is script for the local generation of the PDF file
+# You shall install pandoc and texlive packages to make it work
+
 SOURCE_FILE_NAME="README"
 DEST_FILE_NAME="pandoc-2-pdf-how-to"
 YAML_FILE="_yaml-block.yaml"
