@@ -213,9 +213,38 @@ pandoc -s -S -o pandoc-2-pdf-how-to.pdf
 
 The link to [_yaml-block.yaml][LINK 5] file is [here][LINK 5].
 
-## Building CI pipeline in the Gitlab
+# Automation of PDF creation
 
-I made my CI pipeline for GitLab which automatically creates PDF and stores it in the Gitlab artifactory when the content of MarkDown or YAML files is changed.
+## Local PC automation with *entr* and *task spooler*
+
+On my local PC I use `entr` and `task spooler` (in Ubuntu it is called `tsp`).
+
+- `entr`: The *Event Notify Test Runner* is a general purpose Unix utility intended to make rapid feedback and automated testing natural and completely ordinary. More details on the [Entr project page].
+- `task-spooler` or `tsp` or `ts` (depending on the system): A simple unix batch system. More details via ```man tsp``` or ```man ts```.
+
+To install `entr` and `task spooler` in Ubuntu, use these commands:
+
+```sh
+sudo apt-get update
+sudo apt-get install entr
+sudo apt-get install task-spooler
+
+```
+
+The following command creates task in the spooler queue which monitors state of the edited file (in this case `README.md`) and as soon as file is updated, script `_pdf-gen.sh` is launched. This script generates PDF. In this example both `README.md` and `_pdf-gen.sh` are located in the same directory, and command below is launched from the same directory.
+
+```sh
+> $ tsp bash -c 'ls README.md | entr -p ./_pdf-gen.sh'
+```
+
+When you need to monitor multiple MarkDown files in the e.g. `content` folder, you can use the following command:
+
+```sh
+> $ tsp bash -c 'ls content/*.md | entr -p ./_pdf-gen.sh'
+```
+
+## Building CI pipeline in the Gitlab
+ made my CI pipeline for GitLab which automatically creates PDF and stores it in the Gitlab artifactory when the content of MarkDown or YAML files is changed.
 
 ### Folders structure
 
@@ -292,6 +321,7 @@ Parameter `changes` makes CI job run only when content of the YAML block or any 
 
 [URL 1]: https://github.com/Wandmalfarbe/pandoc-latex-template
 [URL GitHub MD007]: https://github.com/DavidAnson/markdownlint/blob/v0.11.0/doc/Rules.md#md007
+[Entr project page]: http://eradman.com/entrproject/
 
 [LINK 2]: pandoc/templates/eisvogel.latex
 [LINK 3]: pandoc/templates/eisvogel_mod.latex
