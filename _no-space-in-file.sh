@@ -16,9 +16,9 @@ fi
 
 if [[ -d $SOURCE ]]; then # Checking if target is a directory.
 	cd "$SOURCE"
-	for file in *
+	for FILE in $(find . -maxdepth 1 -type f -name "*" -printf "%f\n")
 	do
-		rename 's/ /_/g' "$file"
+		rename 's/ /_/g' "$FILE"
 	done
 	cd "$INITDIR"	
 	exit 0
