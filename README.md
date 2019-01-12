@@ -26,11 +26,20 @@ In Debian family (with **apt**):
 ```sh
 sudo apt-get update
 sudo apt-get install pandoc
-sudo apt-get install texlive-full
 sudo apt-get install imagemagick
 ```
 
-Because of the size of the **texlive** packet (`~4,5GB`) I do generation of the PDF locally.
+I use following `texlive` packages:
+
+```sh
+sudo apt-get install texlive-latex-recommended
+sudo apt-get install texlive-fonts-recommended
+sudo apt-get install texlive-latex-extra
+sudo apt-get install texlive-fonts-extra
+sudo apt-get install texlive-xetex
+```
+
+Extra LaTeX packages are needed for **eisvogel** template to work. I also install XeTeX because if you have text with some special symbols, XeTeX can process it properly.
 
 ### Instructions and commands
 
