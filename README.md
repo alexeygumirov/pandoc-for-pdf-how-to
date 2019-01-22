@@ -336,3 +336,4 @@ Parameter `changes` makes CI job run only when content of the YAML block or any 
 [LINK 3]: pandoc/templates/eisvogel_mod.latex
 [LINK 4]: pandoc-2-pdf-how-to.pdf
 [LINK 5]: _yaml-block.yaml
+
