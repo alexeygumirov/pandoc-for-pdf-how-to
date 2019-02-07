@@ -116,7 +116,7 @@ It is important to mention that the order of options does matter. The instructio
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-	-f markdown_github+yaml_metadata_block+implicit_figures \
+    -f markdown_github+yaml_metadata_block+implicit_figures \
     --template eisvogel_mod --toc --dpi=300 \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -128,7 +128,7 @@ Then **pandoc** command will look like that:
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o $DEST.pdf \
-	-f markdown_github+yaml_metadata_block+implicit_figures \
+    -f markdown_github+yaml_metadata_block+implicit_figures \
     --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -189,7 +189,7 @@ total 197K
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-	-f markdown_github+yaml_metadata_block+implicit_figures \
+    -f markdown_github+yaml_metadata_block+implicit_figures \
     --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
     _yaml-block.yaml content/*.md
 ```
@@ -324,7 +324,7 @@ my_nice_pdf:
     - mkdir -p ~/.pandoc/templates/
     - cp pandoc/templates/$TEMPLATE.latex ~/.pandoc/templates
     - mkdir -p my_nice_pdf
-	- cd "$SOURCE_DIR"
+    - cd "$SOURCE_DIR"
     - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT \
         --template $TEMPLATE -M date="$DATE" \
         --listings --number-section --toc --dpi=300 -V lang=en-US \
