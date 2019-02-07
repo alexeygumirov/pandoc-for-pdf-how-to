@@ -771,8 +771,14 @@ $endif$
 $if(lot)$
 \listoftables
 $endif$
+$if(lot-own-page)$
+\newpage
+$endif$
 $if(lof)$
 \listoffigures
+$endif$
+$if(lof-own-page)$
+\newpage
 $endif$
 $body$
 

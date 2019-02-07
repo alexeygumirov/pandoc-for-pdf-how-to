@@ -13,5 +13,7 @@
  logo-width: 100 
  links-as-notes: true
  lof: false
+ lof-own-page: false
  lot: false
+ lot-own-page: false
 ...

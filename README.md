@@ -8,7 +8,11 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
 
 - **pandoc**
 
-    - template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. The only change I did is I put `subtitle` in the footer instead of `author`.
+    - template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. I made following modifications:
+	  - `subtitle` field is used in the footer instead of `author`.
+	  - I added parameters for putting List of Figures and List of Tables in their own pages (similar to Table of Content:
+	    - `lof-own-page`
+		- `lot-own-page`
     - Both templates you can find i the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
 - **texlive**
@@ -62,12 +66,16 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  logo-width: 100
  links-as-notes: true
  lof: false
+ lof-own-page: false
  lot: false
+ lot-own-page: false
 ```
 
 Parameter **links-as-notes** enables putting of the URL links in the footnotes of the page.
 
 Parameters **lof** and **lot** are responsible for the creation of *list of figures* and *list of tables* respectively.
+
+Parameters **lof-own-page** and **lot-own-page** are responsible for formatting List of Figures and List of Tables into their own pages (similar to **toc-own-page** parameter).
 
 Because MarkDown for GitHub does not support YAML header in the main file, I set it up in the separate `_yaml-block.yaml` file in the root folder of the project.
 
@@ -107,7 +115,8 @@ It is important to mention that the order of options does matter. The instructio
 #### Pandoc command
 
 ```sh
-pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
+pandoc -s -S -o $DEST.pdf \
+	-f markdown_github+yaml_metadata_block+implicit_figures \
     --template eisvogel_mod --toc --dpi=300 \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -118,7 +127,8 @@ Then **pandoc** command will look like that:
 
 ```sh
 DATE=$(date "+%d %B %Y")
-pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
+pandoc -s -S -o $DEST.pdf \
+	-f markdown_github+yaml_metadata_block+implicit_figures \
     --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -134,7 +144,8 @@ Options of the **pandoc** command mean following:
 - `-f FORMAT` or `-r FORMAT`:
 
     - Specify input format. `FORMAT` can be `native` (native Haskell), `json` (JSON version of native AST), `markdown` (pandoc's extended Markdown), `markdown_strict`(original  unextended  Markdown),  `markdown_phpextra` (PHP Markdown Extra), `markdown_github` (GitHub-Flavored Markdown), `commonmark` (CommonMark Markdown), `textile` (Textile), `rst` (reStructuredText), `html` (HTML), `docbook` (DocBook), `t2t` (txt2tags), `docx` (docx), `odt` (ODT), `epub` (EPUB), `opml` (OPML), `org` (Emacs Org mode), `mediawiki` (MediaWiki markup), `twiki` (TWiki markup), `haddock` (Haddock markup), or `latex` (LaTeX).  If `+lhs` is appended to `markdown`, `rst`, `latex`, or `html`, the input will be treated as literate Haskell source. Markdown syntax extensions can be individually enabled or disabled by appending `+EXTENSION` or `-EXTENSION` to the format name.  So, for example, `markdown_strict+footnotes+definition_lists` is strict Markdown with footnotes and definition lists enabled, and `markdown-pipe_tables+hard_line_breaks`  is  pandoc's  Markdown  without pipe tables and with hard line breaks.
-    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this: `-f markdown_github+yaml_metadata_block+smart`.
+	- `implicit_figures`: An image with nonempty alt text, occurring by itself in a paragraph, will be rendered as a figure with a caption. The image’s alt text will be used as the caption. This extension is very useful when you need to autogenerate captions for figures in the markdown reference format like: ``` ![This is the caption](/url/of/image.png) ```
+    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this: `-f markdown_github+yaml_metadata_block+implicit_figures+smart`.
 
 - `--template FILE`: Use `FILE` as a custom template for the generated document.  Implies `--standalone`.
 - `--toc`: `--table-of-contents`
@@ -177,7 +188,8 @@ total 197K
 - Apply following Pandoc command:
 
 ```sh
-pandoc -s -S -o $DEST.pdf -f markdown_github+yaml_metadata_block \
+pandoc -s -S -o $DEST.pdf \
+	-f markdown_github+yaml_metadata_block+implicit_figures \
     --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
     _yaml-block.yaml content/*.md
 ```
@@ -205,6 +217,10 @@ b) Link format that WORKS:   **`[Name of the resource](Link)`**.
 The problem is that by the [Markdown guidelines][URL GitHub MD007] using exclamation mark before URL is not appropriate. Exclamation mark is used for links to images only. But GitHub engine does not give you an error, it just treats such links as links which opens in the new tab or window in the browser.
 Therefore, to avoid compilation errors in the **pdflatex** engine (which is used by **pandoc**), please use (b) type of URL formatting, which is compliant with Markdown standard.
 
+#### Pandoc execution folder
+
+In order for Pandoc correctly process all links and references (especilly links to images) you shall run pandoc script inside the directory with MarkDown files. Therefore, it is better to place `logo` folder, YAML meta-data file and PDF generating shell script directly into the directory with MarkDown files.
+
 ## Examples
 
 ### This page example
@@ -214,7 +230,7 @@ This page [pandoc-2-pdf-how-to.pdf][LINK 4]. Generated with the following comman
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o pandoc-2-pdf-how-to.pdf
-    -f markdown_github+yaml_metadata_block \
+    -f markdown_github+yaml_metadata_block+implicit_figures \
     --template eisvogel_mod --toc --listings --number-section\
     --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.md README.md
@@ -271,14 +287,14 @@ Create following folders structure:
         -- img_01.png
         -- img_02.png
         -- img_03.png
--- logo/
-    -- dt-logo.png
+	-- logo/
+		-- dt-logo.png
+	-- _yaml-block.yaml
 -- pandoc/
     -- templates/
         -- eisvogel.latex
         -- eisvogel_mod.latex
 -- .gitlab-ci.yml
--- _yaml-block.yaml
 -- README.md
 ```
 
@@ -299,7 +315,7 @@ my_nice_pdf:
     YAML_FILE: "_yaml-block.yaml"
     DEST_FILE_NAME: "my_nice_document"
     TEMPLATE: "eisvogel_mod"
-    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart"
+    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+implicit_figures"
   script:
     - DATE=$(date +_%Y-%m-%d)
     - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE
@@ -307,12 +323,13 @@ my_nice_pdf:
     - pandoc --version
     - mkdir -p ~/.pandoc/templates/
     - cp pandoc/templates/$TEMPLATE.latex ~/.pandoc/templates
+    - mkdir -p my_nice_pdf
+	- cd "$SOURCE_DIR"
     - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT \
         --template $TEMPLATE -M date="$DATE" \
         --listings --number-section --toc --dpi=300 -V lang=en-US \
-        $YAML_FILE $SOURCE_DIR/*.md >&1
-    - mkdir -p my_nice_pdf
-    - mv $DEST_FILE_NAME_DATE.pdf my_nice_pdf/
+        $YAML_FILE *.md >&1
+    - mv $DEST_FILE_NAME_DATE.pdf "$CI_PROJECT_DIR"/my_nice_pdf/
   stage: build
   artifacts:
     paths:
@@ -320,7 +337,7 @@ my_nice_pdf:
     expire_in: 6 month
   only:
     changes:
-    - *.yaml
+    - content/*.yaml
     - content/*.md
 ```
 
