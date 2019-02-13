@@ -288,7 +288,7 @@ Create following folders structure:
         -- img_02.png
         -- img_03.png
 	-- logo/
-		-- dt-logo.png
+		-- logo.png
 	-- _yaml-block.yaml
 -- pandoc/
     -- templates/
@@ -298,7 +298,7 @@ Create following folders structure:
 -- README.md
 ```
 
-- In `logo` folder I put `dt-logo.png` file. 
+- In `logo` folder I put `logo.png` file. 
 - In the `content` folder I create `img` folder where I put all images/pictures I use in the content MarkDown files.
 - In the `pandoc/templates` folder I keep pandoc templates I use for PDF creation.
 
