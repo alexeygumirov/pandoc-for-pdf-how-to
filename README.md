@@ -8,11 +8,11 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
 
 - **pandoc**
 
-    - template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. I made following modifications:
-	  - `subtitle` field is used in the footer instead of `author`.
-	  - I added parameters for putting List of Figures and List of Tables in their own pages (similar to Table of Content:
-	    - `lof-own-page`
-		- `lot-own-page`
+	- template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. I made following modifications:
+		- `subtitle` field is used in the footer instead of `author`.
+		- I added parameters for putting List of Figures and List of Tables in their own pages (similar to Table of Content:
+			- `lof-own-page`
+			- `lot-own-page`
     - Both templates you can find i the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
 - **texlive**
