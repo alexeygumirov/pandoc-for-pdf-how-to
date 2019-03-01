@@ -65,9 +65,9 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  logo: "files/logo.png"
  logo-width: 100
  links-as-notes: true
- lof: false
+ lof: true
  lof-own-page: false
- lot: false
+ lot: true
  lot-own-page: false
 ```
 
@@ -117,7 +117,7 @@ It is important to mention that the order of options does matter. The instructio
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
     --template eisvogel_mod --toc --dpi=300 \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -129,7 +129,7 @@ Then **pandoc** command will look like that:
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
     --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -221,7 +221,7 @@ total 197K
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
     --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
     _yaml-block.yaml content/*.md
 ```
@@ -262,8 +262,8 @@ This page [pandoc-2-pdf-how-to.pdf][LINK 4]. Generated with the following comman
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o pandoc-2-pdf-how-to.pdf
-    -f markdown_github+yaml_metadata_block+implicit_figures \
-    --template eisvogel_mod --toc --listings --number-section\
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
+    --template eisvogel_mod --toc --listings --number-section \
     --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.md README.md
 ```
@@ -347,7 +347,7 @@ my_nice_pdf:
     YAML_FILE: "_yaml-block.yaml"
     DEST_FILE_NAME: "my_nice_document"
     TEMPLATE: "eisvogel_mod"
-    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+implicit_figures"
+    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+implicit_figures+table_captions"
   script:
     - DATE=$(date +_%Y-%m-%d)
     - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE
