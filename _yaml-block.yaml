@@ -1,8 +1,8 @@
 ---
- title: "Pandoc for PDF How-To test"
+ title: "How to make PDF from MarkDown with Pandoc"
  author: "Alexey Gumirov"
  date:
- subtitle: "How-to generate nice PDF documentation from Markdown"
+ subtitle: "Detailed manual for all"
  titlepage: true
  titlepage-color: "FFFFFF"
  titlepage-text-color: "000000"

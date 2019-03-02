@@ -1,4 +1,4 @@
-# Pandoc for PDF How-To
+# How to make PDF from MarkDown with Pandoc 
 
 How-To, templates and commands to produce PDF documents from MarkDown files.
 
