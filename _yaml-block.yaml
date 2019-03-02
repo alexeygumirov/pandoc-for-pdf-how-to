@@ -12,8 +12,8 @@
  logo: "files/logo.png"
  logo-width: 100 
  links-as-notes: true
- lof: true
- lof-own-page: false
  lot: true
  lot-own-page: false
+ lof: true
+ lof-own-page: true
 ...
