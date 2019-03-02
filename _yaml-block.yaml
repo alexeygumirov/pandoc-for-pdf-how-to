@@ -3,6 +3,7 @@
  author: "Alexey Gumirov"
  date:
  subtitle: "Detailed manual for all"
+ geometry: "left=2.54cm,right=2.54cm,top=1.91cm,bottom=1.91cm"
  titlepage: true
  titlepage-color: "FFFFFF"
  titlepage-text-color: "000000"

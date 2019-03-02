@@ -56,6 +56,7 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  author: "Alexey Gumirov"
  date: "17 December 2018"
  subtitle: "How-to generate nice PDF documentation from Markdown"
+ geometry: "left=2.54cm,right=2.54cm,top=1.91cm,bottom=1.91cm"
  titlepage: true
  titlepage-color: "FFFFFF"
  titlepage-text-color: "000000"
