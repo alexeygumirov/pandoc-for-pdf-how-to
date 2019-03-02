@@ -301,7 +301,8 @@ When you need to monitor multiple MarkDown files in the e.g. `content` folder, y
 ```
 
 ## Building CI pipeline in the Gitlab
- made my CI pipeline for GitLab which automatically creates PDF and stores it in the Gitlab artifactory when the content of MarkDown or YAML files is changed.
+
+I made my CI pipeline for GitLab which automatically creates PDF and stores it in the Gitlab artifactory when the content of MarkDown or YAML files is changed.
 
 ### Folders structure
 
