@@ -110,7 +110,7 @@ It is important to mention that the order of options does matter. The instructio
 
 1. `-set units PixelsPerInch`: Sets density units in Pixels per Inch instead of default `PixelsperCantimeter`.
 2. `-resample 300`: Changes resolution of the image from its current DPI (PPI) to 300 DPI (PPI). It is not just change of meta-data, this parameter makes **convert** to re-process image.
-3. `-resize 1700x`: Resizes picture to the following dimentions: `width = 1700 pixels`, `height = auto`.
+3. `-resize 1700x`: Resizes picture to the following dimensions: `width = 1700 pixels`, `height = auto`.
 4. `-density 300`: This parameter sets DPI meta-data in the target picture to 300 DPI (PPI)
 
 
@@ -201,7 +201,7 @@ Name | value
 A | 1
 B | 2
 
-#### Convertion of muptiple files
+#### Conversion of multiple files
 
 When you create large amount of content, it is not convinient to use one large MarkDown file for it. Then it is better to split it in multiple MarkDown files and organize them in a separate folder using names with leading sequence numbers, like here:
 
@@ -244,7 +244,7 @@ While using of standard tab (4 spaces) indent is not a mistake, some programs (i
 
 If your Markdown file has to be processed into the PDF, then please pay attention to the format of links you use:
 
-a) Link format that does NOT WORK:   **`![Name of the resourse](Link)`**.
+a) Link format that does NOT WORK:   **`![Name of the resource](Link)`**.
 
 b) Link format that WORKS:   **`[Name of the resource](Link)`**.
 
