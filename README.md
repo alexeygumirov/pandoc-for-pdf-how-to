@@ -118,7 +118,7 @@ It is important to mention that the order of options does matter. The instructio
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --dpi=300 \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -130,7 +130,7 @@ Then **pandoc** command will look like that:
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.yaml $SOURCE.md
 ```
@@ -148,7 +148,8 @@ Options of the **pandoc** command mean following:
     - Specify input format. `FORMAT` can be `native` (native Haskell), `json` (JSON version of native AST), `markdown` (pandoc's extended Markdown), `markdown_strict`(original  unextended  Markdown),  `markdown_phpextra` (PHP Markdown Extra), `markdown_github` (GitHub-Flavored Markdown), `commonmark` (CommonMark Markdown), `textile` (Textile), `rst` (reStructuredText), `html` (HTML), `docbook` (DocBook), `t2t` (txt2tags), `docx` (docx), `odt` (ODT), `epub` (EPUB), `opml` (OPML), `org` (Emacs Org mode), `mediawiki` (MediaWiki markup), `twiki` (TWiki markup), `haddock` (Haddock markup), or `latex` (LaTeX).  If `+lhs` is appended to `markdown`, `rst`, `latex`, or `html`, the input will be treated as literate Haskell source. Markdown syntax extensions can be individually enabled or disabled by appending `+EXTENSION` or `-EXTENSION` to the format name.  So, for example, `markdown_strict+footnotes+definition_lists` is strict Markdown with footnotes and definition lists enabled, and `markdown-pipe_tables+hard_line_breaks`  is  pandoc's  Markdown  without pipe tables and with hard line breaks.
 	- `implicit_figures`: An image with nonempty alt text, occurring by itself in a paragraph, will be rendered as a figure with a caption. The image’s alt text will be used as the caption. This extension is very useful when you need to autogenerate captions for figures in the markdown reference format like: ``` ![This is the caption](/url/of/image.png) ```
 	- `table_captions`: A caption may optionally be provided for all 4 kinds of supported Markdown tables. A caption is a paragraph beginning with the string `Table:` (or just `:`), which will be stripped off. It may appear either before or after the table.
-    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this: `-f markdown_github+yaml_metadata_block+implicit_figures+tables_captions+smart`.
+	- `footnotes`: Footnotes in the Pandoc Markdown format. For more details please go to [Pandoc manual page](https://pandoc.org/MANUAL.html#footnotes). 
+    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this: `-f markdown_github+yaml_metadata_block+implicit_figures+tables_captions+smart+footnotes`.
 
 - `--template FILE`: Use `FILE` as a custom template for the generated document.  Implies `--standalone`.
 - `--toc`: `--table-of-contents`
@@ -222,7 +223,7 @@ total 197K
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
     _yaml-block.yaml content/*.md
 ```
@@ -263,7 +264,7 @@ This page [pandoc-2-pdf-how-to.pdf][LINK 4]. Generated with the following comman
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o pandoc-2-pdf-how-to.pdf
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --listings --number-section \
     --dpi=300 -M date="$DATE" \
     -V lang=en-US _yaml-block.md README.md
@@ -349,7 +350,7 @@ my_nice_pdf:
     YAML_FILE: "_yaml-block.yaml"
     DEST_FILE_NAME: "my_nice_document"
     TEMPLATE: "eisvogel_mod"
-    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+implicit_figures+table_captions"
+    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+implicit_figures+table_captions+footnotes"
   script:
     - DATE=$(date +_%Y-%m-%d)
     - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE
