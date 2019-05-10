@@ -17,4 +17,5 @@
  lot-own-page: false
  lof: true
  lof-own-page: true
+ listings-disable-line-numbers: true
 ...

@@ -70,6 +70,7 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  lot-own-page: false
  lof: true
  lof-own-page: true
+ listings-disable-line-numbers: true
 ```
 
 Parameter **links-as-notes** enables putting of the URL links in the footnotes of the page.
@@ -77,6 +78,8 @@ Parameter **links-as-notes** enables putting of the URL links in the footnotes o
 Parameters **lof** and **lot** are responsible for the creation of *list of figures* and *list of tables* respectively.
 
 Parameters **lof-own-page** and **lot-own-page** are responsible for formatting List of Figures and List of Tables into their own pages (similar to **toc-own-page** parameter).
+
+Parameter **listings-disable-line-numbers** disables line numbers for all listings.
 
 Because MarkDown for GitHub does not support YAML header in the main file, I set it up in the separate `_yaml-block.yaml` file in the root folder of the project.
 
