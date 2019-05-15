@@ -69,15 +69,16 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  lot: true
  lot-own-page: false
  lof: true
- lof-own-page: true
  listings-disable-line-numbers: true
 ```
+
+> Table of content, list of tables and list of figures are going in the following order: ToC, LoT and LoF. After LoF is always a page break.
 
 Parameter **links-as-notes** enables putting of the URL links in the footnotes of the page.
 
 Parameters **lof** and **lot** are responsible for the creation of *list of figures* and *list of tables* respectively.
 
-Parameters **lof-own-page** and **lot-own-page** are responsible for formatting List of Figures and List of Tables into their own pages (similar to **toc-own-page** parameter).
+Parameter **lot-own-page** is responsible for separation of the List of Tables from List of Figures with a page break (similar to **toc-own-page** parameter).
 
 Parameter **listings-disable-line-numbers** disables line numbers for all listings.
 

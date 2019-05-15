@@ -838,10 +838,8 @@ $endif$
 $endif$
 $if(lof)$
 \listoffigures
-$if(lof-own-page)$
+$endif$
 \newpage
-$endif$
-$endif$
 $if(linestretch)$
 \setstretch{$linestretch$}
 $endif$
