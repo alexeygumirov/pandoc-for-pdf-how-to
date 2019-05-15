@@ -9,11 +9,10 @@
  titlepage-text-color: "000000"
  titlepage-rule-color: "CCCCCC"
  titlepage-rule-height: 4
- toc-own-page: true
+ toc-own-page: false
  logo: "files/logo.png"
  logo-width: 100 
  links-as-notes: true
- toc-own-page: false
  lot: true
  lot-own-page: false
  lof: true
