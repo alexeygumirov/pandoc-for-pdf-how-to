@@ -10,7 +10,6 @@ TEMPLATE="eisvogel_mod.latex"
 DATE=$(date "+%d %B %Y")
 
 # For Pandoc 1.x
-<<<<<<< HEAD
 #
 # SOURCE_FORMAT="markdown_github+yaml_metadata_block+smart+implicit_figures"
 # pandoc -s -S -o "$DEST_FILE_NAME".pdf -f "$SOURCE_FORMAT" --template "$TEMPLATE" --toc --listings --number-section --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US $(cat "$INDEX_FILE") >&1
@@ -19,14 +18,3 @@ DATE=$(date "+%d %B %Y")
 #
 SOURCE_FORMAT="markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes+smart"
 pandoc -s -o "$DEST_FILE_NAME".pdf -f "$SOURCE_FORMAT" --template "$TEMPLATE" --toc --listings --number-section --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US $(cat "$INDEX_FILE") >&1
-=======
-# SOURCE_FORMAT="markdown_github+yaml_metadata_block+smart+implicit_figures"
-#
-# pandoc -s -S -o "$DEST_FILE_NAME".pdf -f "$SOURCE_FORMAT" --template "$TEMPLATE" --toc --listings --number-section --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US "$YAML_FILE" "$SOURCE_FILE_NAME".md >&1
-
-
-# For Pandoc 2.x
-SOURCE_FORMAT="markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes+smart"
-
-pandoc -s -o "$DEST_FILE_NAME".pdf -f "$SOURCE_FORMAT" --template "$TEMPLATE" --toc --listings --number-section --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US "$YAML_FILE" "$SOURCE_FILE_NAME".md >&1
->>>>>>> 4abbc1294b6438f23bf370774b5206e742ec4a3f
