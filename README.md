@@ -292,7 +292,7 @@ pandoc -s -S -o pandoc-2-pdf-how-to.pdf
     -V lang=en-US $(cat INDEX)
 ```
 
-The link to [_yaml-block.yaml][LINK 5] file is [here][LINK 5].
+The link to [`HEADER.YAML`][LINK 5].
 
 # Automation of PDF creation
 
@@ -340,8 +340,8 @@ Create following folders structure:
     -- 02-Chapter_A.md
     -- 03-Chapter_B.md
     -- {...}.md
-	-- HEADER.YAML
-	-- INDEX
+    -- HEADER.YAML
+    -- INDEX
     -- img/
         -- img_01.png
         -- img_02.png
@@ -425,4 +425,4 @@ Parameter `changes` makes CI job run only when content of the YAML block or any 
 [LINK 2]: pandoc/templates/eisvogel.latex
 [LINK 3]: pandoc/templates/eisvogel_mod.latex
 [LINK 4]: pandoc-2-pdf-how-to.pdf
-[LINK 5]: _yaml-block.yaml
+[LINK 5]: HEADER.YAML
