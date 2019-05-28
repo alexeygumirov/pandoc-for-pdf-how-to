@@ -358,7 +358,6 @@ Create following folders structure:
 
 Where `INDEX` file contains list of source files which shall be processed by Pandoc including `HEADER.YAML` file.
 
-
 ```sh
 > $ cat INDEX
 HEADER.YAML
@@ -374,7 +373,7 @@ HEADER.YAML
 
 To create PDF I use `knsit/pandoc` Docker container. This container has newer version of the **pandoc** therefore instead of `-S` optoin I use `+smart` extension in the `-f` option.
 
-> Note: After update of Pandoc engine to version 2.7.2 PDF generation is broken. Therefore I use v2.7 of Pandoc engine.
+> **Note:** After update of Pandoc engine to version 2.7.2 PDF generation is broken. Therefore I use v2.7 of Pandoc engine.
 
 The `.gitlab-ci.yml` has the following content:
 
