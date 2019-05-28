@@ -81,7 +81,7 @@ Parameter **lot-own-page** is responsible for separation of the List of Tables f
 
 Parameter **listings-disable-line-numbers** disables line numbers for all listings.
 
-Because MarkDown for GitHub does not support YAML header in the main file, I set it up in the separate `_yaml-block.yaml` file in the root folder of the project.
+Because MarkDown for GitHub does not support YAML header in the main file, I set it up in the separate `HEADER.YAML` file in the root folder of the project.
 
 #### Images preparation
 
@@ -123,7 +123,7 @@ It is important to mention that the order of options does matter. The instructio
 pandoc -s -S -o $DEST.pdf \
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --dpi=300 \
-    -V lang=en-US _yaml-block.yaml $SOURCE.md
+    -V lang=en-US HEADER.YAML $SOURCE.md
 ```
 
 If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` option: ```-M date="$DATE"```.
@@ -135,7 +135,7 @@ DATE=$(date "+%d %B %Y")
 pandoc -s -S -o $DEST.pdf \
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
-    -V lang=en-US _yaml-block.yaml $SOURCE.md
+    -V lang=en-US HEADER.YAML $SOURCE.md
 ```
 
 Options of the **pandoc** command mean following:
@@ -228,10 +228,29 @@ total 197K
 pandoc -s -S -o $DEST.pdf \
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
-    _yaml-block.yaml content/*.md
+    HEADER.YAML content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
+
+The cons of this method is that you cannot include/exclude particular source MarkDown files to produce PDF with only content you need. Therefore for such setups I use `INDEX` file where I list all files which Pandoc shall convert into PDF in the order I want them to go.
+
+```sh
+> cat INDEX
+HEADER.YAML
+00-Intro.md
+01-Chapter_A.md
+03-Chapter_C.md
+```
+
+And then my PDF generation command looks the following:
+
+```sh
+pandoc -s -S -o $DEST.pdf \
+    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
+    --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
+   $(cat INDEX) 
+```
 
 ### Important notes about MarkDown file formatting for PDF processing
 
@@ -270,7 +289,7 @@ pandoc -s -S -o pandoc-2-pdf-how-to.pdf
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
     --template eisvogel_mod --toc --listings --number-section \
     --dpi=300 -M date="$DATE" \
-    -V lang=en-US _yaml-block.md README.md
+    -V lang=en-US $(cat INDEX)
 ```
 
 The link to [_yaml-block.yaml][LINK 5] file is [here][LINK 5].
@@ -321,19 +340,32 @@ Create following folders structure:
     -- 02-Chapter_A.md
     -- 03-Chapter_B.md
     -- {...}.md
+	-- HEADER.YAML
+	-- INDEX
     -- img/
         -- img_01.png
         -- img_02.png
         -- img_03.png
 	-- logo/
 		-- logo.png
-	-- _yaml-block.yaml
 -- pandoc/
     -- templates/
         -- eisvogel.latex
         -- eisvogel_mod.latex
 -- .gitlab-ci.yml
 -- README.md
+```
+
+Where `INDEX` file contains list of source files which shall be processed by Pandoc including `HEADER.YAML` file.
+
+
+```sh
+> $ cat INDEX
+HEADER.YAML
+01-Introduction.md
+02-Chapter_A.md
+03-Chapter_B.md
+{...}.md
 ```
 
 - In `logo` folder I put `logo.png` file. 
@@ -352,7 +384,7 @@ image: knsit/pandoc:v2.7
 my_nice_pdf:
   variables:
     SOURCE_DIR: "content"
-    YAML_FILE: "_yaml-block.yaml"
+    INDEX_FILE: "INDEX"
     DEST_FILE_NAME: "my_nice_document"
     TEMPLATE: "eisvogel_mod"
     SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+implicit_figures+table_captions+footnotes"
@@ -368,7 +400,7 @@ my_nice_pdf:
     - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT \
         --template $TEMPLATE -M date="$DATE" \
         --listings --number-section --toc --dpi=300 -V lang=en-US \
-        $YAML_FILE *.md >&1
+        $(cat "$INDEX_FILE") >&1
     - mv $DEST_FILE_NAME_DATE.pdf "$CI_PROJECT_DIR"/my_nice_pdf/
   stage: build
   artifacts:
@@ -377,8 +409,9 @@ my_nice_pdf:
     expire_in: 6 month
   only:
     changes:
-    - content/*.yaml
+    - content/HEADER.YAML
     - content/*.md
+	- content/INDEX
 ```
 
 Parameter `changes` makes CI job run only when content of the YAML block or any of MarkDown files in the `content` folder is changed.
