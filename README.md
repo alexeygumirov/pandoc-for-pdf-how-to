@@ -411,6 +411,7 @@ my_nice_pdf:
     - content/HEADER.YAML
     - content/*.md
 	- content/INDEX
+
 ```
 
 Parameter `changes` makes CI job run only when content of the YAML block or any of MarkDown files in the `content` folder is changed.
