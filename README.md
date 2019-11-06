@@ -10,8 +10,6 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
 
 	- template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. I made following modifications:
 		- `subtitle` field is used in the footer instead of `author`.
-		- I added parameters for putting List of Figures and List of Tables in their own pages (similar to Table of Content):
-			- `lot-own-page`
     - Both templates you can find in the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
 - **texlive**
@@ -61,12 +59,10 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  titlepage-text-color: "000000"
  titlepage-rule-color: "CCCCCC"
  titlepage-rule-height: 4
- toc-own-page: true
  logo: "files/logo.png"
  logo-width: 100
  links-as-notes: true
  lot: true
- lot-own-page: false
  lof: true
  listings-disable-line-numbers: true
 ```
@@ -76,8 +72,6 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
 Parameter **links-as-notes** enables putting of the URL links in the footnotes of the page.
 
 Parameters **lof** and **lot** are responsible for the creation of *list of figures* and *list of tables* respectively.
-
-Parameter **lot-own-page** is responsible for separation of the List of Tables from List of Figures with a page break (similar to **toc-own-page** parameter).
 
 Parameter **listings-disable-line-numbers** disables line numbers for all listings.
 
@@ -122,8 +116,9 @@ It is important to mention that the order of options does matter. The instructio
 ```sh
 pandoc -s -S -o $DEST.pdf \
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --toc --dpi=300 \
-    -V lang=en-US HEADER.YAML $SOURCE.md
+    --template eisvogel_mod --listings --number-section -V subparagraph\
+	--toc --dpi=300 -V lang=en-US \
+    HEADER.YAML $SOURCE.md
 ```
 
 If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` option: ```-M date="$DATE"```.
@@ -134,6 +129,8 @@ Then **pandoc** command will look like that:
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o $DEST.pdf \
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
+    --template eisvogel_mod --listings --number-section -V subparagraph\
+	--toc --dpi=300 -V lang=en-US \
     --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
     -V lang=en-US HEADER.YAML $SOURCE.md
 ```
@@ -167,6 +164,7 @@ Options of the **pandoc** command mean following:
 
     - Set the template variable KEY to the value VAL when rendering the document in standalone mode.  This is generally  only  useful  when  the `--template`  option  is used to specify a custom template, since pandoc automatically sets the variables used in the default templates. If no `VAL` is specified, the key will be given the value true.
     - `lang`: one of the `KEY` parameters of `-V` which defines default document language.
+	- `subparagraph`: Is needed to start each chapter from the new page here. In the Eisvogel_mod.latex template necessary modifications are made. 
 
 Additional useful options of the **pandoc** command are:
 
@@ -227,7 +225,8 @@ total 197K
 ```sh
 pandoc -s -S -o $DEST.pdf \
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
+    --template eisvogel_mod --listings --number-section -V subparagraph \
+    --toc --dpi=300 -V lang=en-US \
     HEADER.YAML content/*.md
 ```
 
@@ -248,7 +247,8 @@ And then my PDF generation command looks the following:
 ```sh
 pandoc -s -S -o $DEST.pdf \
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --toc --dpi=300 -V lang=en-US \
+    --template eisvogel_mod --listings --number-section -V subparagraph \
+    --toc --dpi=300 -V lang=en-US \
    $(cat INDEX) 
 ```
 
@@ -287,9 +287,9 @@ This page [pandoc-2-pdf-how-to.pdf][LINK 4]. Generated with the following comman
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o pandoc-2-pdf-how-to.pdf
     -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --toc --listings --number-section \
-    --dpi=300 -M date="$DATE" \
-    -V lang=en-US $(cat INDEX)
+    --template eisvogel_mod --listings --number-section -V subparagraph \
+    --toc --dpi=300 -M date="$DATE" -V lang=en-US \
+    $(cat INDEX)
 ```
 
 The link to [`HEADER.YAML`][LINK 5].
@@ -398,7 +398,8 @@ my_nice_pdf:
     - cd "$SOURCE_DIR"
     - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT \
         --template $TEMPLATE -M date="$DATE" \
-        --listings --number-section --toc --dpi=300 -V lang=en-US \
+        --listings --number-section -V subparagraph \
+		--toc --dpi=300 -V lang=en-US \
         $(cat "$INDEX_FILE") >&1
     - mv $DEST_FILE_NAME_DATE.pdf "$CI_PROJECT_DIR"/my_nice_pdf/
   stage: build

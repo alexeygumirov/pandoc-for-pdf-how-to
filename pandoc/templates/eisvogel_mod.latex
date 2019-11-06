@@ -713,8 +713,9 @@ $endif$
 %
 $if(disable-header-and-footer)$
 $else$
+\usepackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage}
 \usepackage{fancyhdr}
-
 \fancypagestyle{eisvogel-header-footer}{
   \fancyhead{}
   \fancyfoot{}

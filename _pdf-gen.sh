@@ -17,4 +17,4 @@ DATE=$(date "+%d %B %Y")
 # For Pandoc 2.x
 #
 SOURCE_FORMAT="markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes+smart"
-pandoc -s -o "$DEST_FILE_NAME".pdf -f "$SOURCE_FORMAT" --template "$TEMPLATE" --toc --listings --number-section --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US $(cat "$INDEX_FILE") >&1
+pandoc -s -o "$DEST_FILE_NAME".pdf -f "$SOURCE_FORMAT" --template "$TEMPLATE" --toc --listings --number-section -V subparagraph --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US $(cat "$INDEX_FILE") >&1
