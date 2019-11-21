@@ -399,7 +399,7 @@ my_nice_pdf:
     - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT \
         --template $TEMPLATE -M date="$DATE" \
         --listings --number-section -V subparagraph \
-		--toc --dpi=300 -V lang=en-US \
+        --toc --dpi=300 -V lang=en-US \
         $(cat "$INDEX_FILE") >&1
     - mv $DEST_FILE_NAME_DATE.pdf "$CI_PROJECT_DIR"/my_nice_pdf/
   stage: build
