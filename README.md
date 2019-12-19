@@ -498,7 +498,6 @@ make_unprotected:
   stage: makepdf
   script:
     - DATE=$(date "+%d %B %Y")
-    - pandoc --version
     - cd "$SOURCE_DIR"
     - pandoc -s -o "$DEST_FILE_NAME" -f $SOURCE_FORMAT \
         --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" \
