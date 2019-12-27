@@ -115,10 +115,10 @@ It is important to mention that the order of options does matter. The instructio
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --listings --number-section -V subparagraph\
-    --toc --dpi=300 -V lang=en-US \
-    HEADER.YAML $SOURCE.md
+    -f "markdown_github+yaml_metadata_block+implicit_figures+\
+    table_captions+footnotes" --template eisvogel_mod \
+    --listings --number-section -V subparagraph --toc \
+    --dpi=300 -V lang=en-US HEADER.YAML $SOURCE.md
 ```
 
 If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` option: ```-M date="$DATE"```.
@@ -128,11 +128,11 @@ Then **pandoc** command will look like that:
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --listings --number-section -V subparagraph\
-    --toc --dpi=300 -V lang=en-US \
-    --template eisvogel_mod --toc --dpi=300 -M date="$DATE" \
-    -V lang=en-US HEADER.YAML $SOURCE.md
+    -f "markdown_github+yaml_metadata_block+implicit_figures+\
+    table_captions+footnotes" --template eisvogel_mod \
+    --listings --number-section -V subparagraph --toc \
+    --dpi=300 -M date="$DATE" -V lang=en-US \
+    HEADER.YAML $SOURCE.md
 ```
 
 Options of the **pandoc** command mean following:
@@ -224,10 +224,10 @@ total 197K
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --listings --number-section -V subparagraph \
-    --toc --dpi=300 -V lang=en-US \
-    HEADER.YAML content/*.md
+    -f "markdown_github+yaml_metadata_block+implicit_figures+\
+    table_captions+footnotes" --template eisvogel_mod \
+    --listings --number-section -V subparagraph --toc \
+    --dpi=300 -V lang=en-US HEADER.YAML content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
@@ -246,10 +246,10 @@ And then my PDF generation command looks the following:
 
 ```sh
 pandoc -s -S -o $DEST.pdf \
-    -f markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes \
-    --template eisvogel_mod --listings --number-section -V subparagraph \
-    --toc --dpi=300 -V lang=en-US \
-   $(cat INDEX) 
+    -f "markdown_github+yaml_metadata_block+implicit_figures+\
+    table_captions+footnotes" --template eisvogel_mod \
+    --listings --number-section -V subparagraph --toc \
+    --dpi=300 -V lang=en-US $(cat INDEX) 
 ```
 
 ### Important notes about MarkDown file formatting for PDF processing
@@ -467,7 +467,7 @@ my_nice_pdf:
     changes:
     - content/HEADER.YAML
     - content/INDEX
-    - content/*.md
+    - content/content.md
 ```
 
 Parameter `changes` makes CI job run only when content of the YAML block or any of MarkDown files in the `content` folder is changed.
@@ -514,7 +514,7 @@ make_unprotected:
     changes:
     - content/HEADER.YAML
     - content/INDEX
-    - content/*.md
+    - content/content.md
 
 make_protected:
   image: alpine:latest
@@ -541,7 +541,7 @@ make_protected:
     changes:
     - content/HEADER.YAML
     - content/INDEX
-    - content/*.md
+    - content/content.md
 ```
 
 
