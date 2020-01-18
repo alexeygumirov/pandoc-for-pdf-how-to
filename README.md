@@ -89,7 +89,7 @@ convert $SOURCE_IMG_FILE -units PixelsPerInch \
     -resample 300 $TARGET_IMG_FILE.png
 ```
 
-After rasampling image has to be brought to the proper size. Command resizes picture to be 1700 pixels horizontally and sets DPI meta-data to 300.
+After rasampling image has to be brought to the proper size. Command resizes picture to 1700 pixels of width and sets DPI meta-data to 300.
 
 ```sh
 convert $SOURCE_IMG_FILE -units PixelsPerInch \
@@ -163,7 +163,7 @@ Options of the **pandoc** command mean following:
 - `-V KEY[=VAL]`: `--variable=KEY[:VAL]`
 
     - Set the template variable KEY to the value VAL when rendering the document in standalone mode.  This is generally  only  useful  when  the `--template`  option  is used to specify a custom template, since pandoc automatically sets the variables used in the default templates. If no `VAL` is specified, the key will be given the value true.
-    - `lang`: one of the `KEY` parameters of `-V` which defines default document language.
+    - `lang`: one of the `KEY` parameters of `-V` which defines default document language. Changing of this parameter will change language of default headers and captions (e.g. if you make `land=de-DE`, then **Contents** will become **Inhaltsverzeichnis**, **List of Tables** will be **Tabellenverzeichnis**, **Table** will be **Tabelle**, **Figure** caption will be **Abbildung**).
 	- `subparagraph`: Is needed to start each chapter from the new page here. In the Eisvogel_mod.latex template necessary modifications are made. 
 
 Additional useful options of the **pandoc** command are:
@@ -202,7 +202,7 @@ Name | value
 A | 1
 B | 2
 
-#### Conversion of multiple files
+#### Processing of multiple files
 
 When you create large amount of content, it is not convinient to use one large MarkDown file for it. Then it is better to split it in multiple MarkDown files and organize them in a separate folder using names with leading sequence numbers, like here:
 
@@ -275,7 +275,7 @@ Therefore, to avoid compilation errors in the **pdflatex** engine (which is used
 
 #### Pandoc execution folder
 
-In order for Pandoc correctly process all links and references (especilly links to images) you shall run pandoc script inside the directory with MarkDown files. Therefore, it is better to place `logo` folder, YAML meta-data file and PDF generating shell script directly into the directory with MarkDown files.
+For the correct processing of the links and references by Pandoc (especilly links to images) you shall run pandoc script inside the directory with MarkDown files. Therefore, it is better to place `logo` folder, YAML meta-data file and PDF generating shell script directly into the directory with MarkDown files.
 
 ## Protection of PDF file with QPDF
 
@@ -301,7 +301,7 @@ qpdf --object-streams=disable --encrypt "" "{owner-password}" 256 \
 
 In order to generate random **owner-password** you can use many methods defined on this page ["10 Ways to Generate a Random Password from the Linux Command Line"][cli-pass].
 
-In order to unify PC and CI pipeline scripts I use the last one, because it works in the **alpine** Docker container.
+For unification of PC and GitLab CI pipeline scripts I use the last one (see below), because it works in the **alpine** Docker container:
 
 ```sh
 date | md5sum | cut -d ' ' -f 1
