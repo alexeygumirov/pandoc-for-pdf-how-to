@@ -30,6 +30,12 @@ sudo apt-get install pandoc
 sudo apt-get install imagemagick
 ```
 
+Quite often standard Debian and Ubuntu repositories install very old version of Pandoc (something like 1.19), which does not support smart extensions and many other features. Then it is better to download fresh `deb` package from the github repository: [PanDoc Github][URL Pandoc Github]. Installation of the `deb` package is made with the following command:
+
+```sh
+dpkg -i <package name>.deb
+```
+
 I use following `texlive` packages:
 
 ```sh
@@ -549,6 +555,7 @@ make_protected:
 
 [URL 1]: https://github.com/Wandmalfarbe/pandoc-latex-template
 [URL GitHub MD007]: https://github.com/DavidAnson/markdownlint/blob/v0.11.0/doc/Rules.md#md007
+[URL Pandoc Github]: https://github.com/jgm/pandoc/releases
 [Entr project page]: http://eradman.com/entrproject/
 
 [LINK 2]: pandoc/templates/eisvogel.latex
