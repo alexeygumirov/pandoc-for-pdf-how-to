@@ -10,6 +10,8 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
 
 	- template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. I made following modifications:
 		- `subtitle` field is used in the footer instead of `author`.
+        - blockqute font is darker than original which is better for reading.
+        - code listings are wrapped on white spaces by default.
     - Both templates you can find in the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
 - **texlive**
@@ -91,22 +93,19 @@ If you have images with different DPI (especially GIF files), then  use the foll
 To re-sample image to 300 DPI:
 
 ```sh
-convert $SOURCE_IMG_FILE -units PixelsPerInch \
-    -resample 300 $TARGET_IMG_FILE.png
+convert $SOURCE_IMG_FILE -units PixelsPerInch -resample 300 $TARGET_IMG_FILE.png
 ```
 
 After rasampling image has to be brought to the proper size. Command resizes picture to 1700 pixels of width and sets DPI meta-data to 300.
 
 ```sh
-convert $SOURCE_IMG_FILE -units PixelsPerInch \
-    -resize 1700x -density 300 $TARGET_IMG_FILE.png
+convert $SOURCE_IMG_FILE -units PixelsPerInch -resize 1700x -density 300 $TARGET_IMG_FILE.png
 ```
 
 But if you are not afraid, then all can be done in one command:
 
 ```sh
-convert $SOURCE_IMG_FILE  -set units PixelsPerInch \
-    -resample 300 -resize 1700x -density 300 $TARGET_IMG_FILE.png
+convert $SOURCE_IMG_FILE  -set units PixelsPerInch -resample 300 -resize 1700x -density 300 $TARGET_IMG_FILE.png
 ```
 
 It is important to mention that the order of options does matter. The instruction above makes steps in the following order:
@@ -116,15 +115,13 @@ It is important to mention that the order of options does matter. The instructio
 3. `-resize 1700x`: Resizes picture to the following dimensions: `width = 1700 pixels`, `height = auto`.
 4. `-density 300`: This parameter sets DPI meta-data in the target picture to 300 DPI (PPI)
 
+### Pandoc command
 
-#### Pandoc command
+Putting all toghether in one command.
 
 ```sh
-pandoc -s -S -o $DEST.pdf \
-    -f "markdown_github+yaml_metadata_block+implicit_figures+\
-    table_captions+footnotes" --template eisvogel_mod \
-    --listings --number-section -V subparagraph --toc \
-    --dpi=300 -V lang=en-US HEADER.YAML $SOURCE.md
+pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US HEADER.YAML $SOURCE.md
 ```
 
 If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` option: ```-M date="$DATE"```.
@@ -133,12 +130,8 @@ Then **pandoc** command will look like that:
 
 ```sh
 DATE=$(date "+%d %B %Y")
-pandoc -s -S -o $DEST.pdf \
-    -f "markdown_github+yaml_metadata_block+implicit_figures+\
-    table_captions+footnotes" --template eisvogel_mod \
-    --listings --number-section -V subparagraph --toc \
-    --dpi=300 -M date="$DATE" -V lang=en-US \
-    HEADER.YAML $SOURCE.md
+pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -M date="$DATE" -V lang=en-US HEADER.YAML $SOURCE.md
 ```
 
 Options of the **pandoc** command mean following:
@@ -155,7 +148,9 @@ Options of the **pandoc** command mean following:
 	- `implicit_figures`: An image with nonempty alt text, occurring by itself in a paragraph, will be rendered as a figure with a caption. The image’s alt text will be used as the caption. This extension is very useful when you need to autogenerate captions for figures in the markdown reference format like: ``` ![This is the caption](/url/of/image.png) ```
 	- `table_captions`: A caption may optionally be provided for all 4 kinds of supported Markdown tables. A caption is a paragraph beginning with the string `Table:` (or just `:`), which will be stripped off. It may appear either before or after the table.
 	- `footnotes`: Footnotes in the Pandoc Markdown format. For more details please go to [Pandoc manual page](https://pandoc.org/MANUAL.html#footnotes). 
-    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this: `-f markdown_github+yaml_metadata_block+implicit_figures+tables_captions+smart+footnotes`.
+    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this:
+
+`markdown_github+yaml_metadata_block+implicit_figures+tables_captions+smart+footnotes`.
 
 - `--template FILE`: Use `FILE` as a custom template for the generated document.  Implies `--standalone`.
 - `--toc`: `--table-of-contents`
@@ -175,6 +170,7 @@ Options of the **pandoc** command mean following:
 Additional useful options of the **pandoc** command are:
 
 - `--listings`: It creates nice presentation of the raw code (like shell code or programming code).
+- `--columns`: Specify length of lines in characters. This affects text wrapping in the generated source code (see --wrap). It also affects calculation of column widths for plain text tables.
 - `--number-section`: Automatically creates enumerated headers. 
 - `--default-image-extension`: If you want Pandoc to insert only one type of images, e.g. PNG, then you shall add `--default-image-extension png` in the command line.
 
@@ -195,18 +191,18 @@ The `table_captions` extension requires `Table:` or `:` paragraph right before o
 ```
 Table: Sample table
 
-Name | value
-:---|:---:
-A | 1
-B | 2
+| Name | value |
+|:-----|:-----:|
+| A    |   1   |
+| B    |   2   |
 ```
 
 Table: Sample table
 
-Name | value
-:---|:---:
-A | 1
-B | 2
+| Name | value |
+|:-----|:-----:|
+| A    |   1   |
+| B    |   2   |
 
 #### Processing of multiple files
 
@@ -229,11 +225,8 @@ total 197K
 - Apply following Pandoc command:
 
 ```sh
-pandoc -s -S -o $DEST.pdf \
-    -f "markdown_github+yaml_metadata_block+implicit_figures+\
-    table_captions+footnotes" --template eisvogel_mod \
-    --listings --number-section -V subparagraph --toc \
-    --dpi=300 -V lang=en-US HEADER.YAML content/*.md
+pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US HEADER.YAML content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
@@ -251,11 +244,8 @@ HEADER.YAML
 And then my PDF generation command looks the following:
 
 ```sh
-pandoc -s -S -o $DEST.pdf \
-    -f "markdown_github+yaml_metadata_block+implicit_figures+\
-    table_captions+footnotes" --template eisvogel_mod \
-    --listings --number-section -V subparagraph --toc \
-    --dpi=300 -V lang=en-US $(cat INDEX) 
+pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US $(cat INDEX) 
 ```
 
 ### Important notes about MarkDown file formatting for PDF processing
@@ -288,9 +278,7 @@ For the correct processing of the links and references by Pandoc (especilly link
 Pandoc does not produce password protected PDF files. To create password protected PDF and also being able to disable ability to extract data from the document and print it I use [**qpdf**][qpdf] command line tool.
 
 ```sh
-qpdf --object-streams=disable --encrypt "{user-password}" \
-    "{owner-password}" 256 --print=none --modify=none \
-    --extract=n -- {input.pdf} {output.pdf}
+qpdf --object-streams=disable --encrypt "{user-password}" "{owner-password}" 256 --print=none --modify=none --extract=n -- {input.pdf} {output.pdf}
 ```
 
 - **user-password**: This is the password to open the PDF file in the reader program.
@@ -301,8 +289,7 @@ Usually I use only **owner-password** because I want my files be protected from 
 It is important to mention that if you want to have no **user-password** while have **owner-password**, you shall define empty user password:
 
 ```sh
-qpdf --object-streams=disable --encrypt "" "{owner-password}" 256 \
-    --print=none --modify=none --extract=n -- {input.pdf} {output.pdf}
+qpdf --object-streams=disable --encrypt "" "{owner-password}" 256 --print=none --modify=none --extract=n -- {input.pdf} {output.pdf}
 ```
 
 In order to generate random **owner-password** you can use many methods defined on this page ["10 Ways to Generate a Random Password from the Linux Command Line"][cli-pass].
@@ -318,8 +305,7 @@ Finally, merging all into one script:
 ```sh
 OWNER_PASSWORD=$(date | md5sum | cut -d ' ' -f 1)
 
-qpdf --object-streams=disable --encrypt "" "$OWNER_PASSWORD" 256 \
-    --print=none --modify=none --extract=n -- {input.pdf} {output.pdf}
+qpdf --object-streams=disable --encrypt "" "$OWNER_PASSWORD" 256 --print=none --modify=none --extract=n -- {input.pdf} {output.pdf}
 ```
 
 ## Examples
@@ -339,17 +325,11 @@ DATA_DIR="pandoc"
 
 SOURCE_FORMAT="markdown_github+yaml_metadata_block+\
     implicit_figures+table_captions+footnotes+smart"
-pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" \
-    --data-dir="$DATA_DIR" --template "$TEMPLATE" \
-    --toc --listings --number-section -V subparagraph \
-    --dpi=300 --pdf-engine xelatex -M date="$DATE" \
-    -V lang=en-US $(cat "$INDEX_FILE") >&1
+pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-section -V subparagraph --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US $(cat "$INDEX_FILE") >&1
 
 OWNER_PASSWORD=$(date | md5sum | cut -d ' ' -f 1)
 
-qpdf --object-streams=disable --encrypt "" "$OWNER_PASSWORD" 256 \
-    --print=none --modify=none --extract=n -- \
-    "$DEST_FILE_NAME" "$DEST_FILE_NAME_PROTECTED"
+qpdf --object-streams=disable --encrypt "" "$OWNER_PASSWORD" 256 --print=none --modify=none --extract=n -- "$DEST_FILE_NAME" "$DEST_FILE_NAME_PROTECTED"
 ```
 
 Links to [`HEADER.YAML`][LINK 5] and [`INDEX`][Link 8] files.
@@ -457,11 +437,7 @@ my_nice_pdf:
     - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE
     - DATE=$(date "+%d %B %Y")
     - cd "$SOURCE_DIR"
-    - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT \
-        --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" \
-        --listings --number-section -V subparagraph \
-        --toc --dpi=300 -V lang=en-US \
-        $(cat "$INDEX_FILE") >&1
+    - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US $(cat "$INDEX_FILE") >&1
     - mkdir -p my_nice_pdf
     - mv $DEST_FILE_NAME_DATE.pdf "$CI_PROJECT_DIR"/my_nice_pdf/
   stage: build
@@ -505,11 +481,7 @@ make_unprotected:
   script:
     - DATE=$(date "+%d %B %Y")
     - cd "$SOURCE_DIR"
-    - pandoc -s -o "$DEST_FILE_NAME" -f $SOURCE_FORMAT \
-        --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" \
-        --listings --number-section -V subparagraph \
-        --toc --dpi=300 -V lang=en-US \
-        $(cat "$INDEX_FILE") >&1
+    - pandoc -s -o "$DEST_FILE_NAME" -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US $(cat "$INDEX_FILE") >&1
     - mkdir -p interim/
     - mv "$DEST_FILE_NAME" "$CI_PROJECT_DIR"/interim/
   artifacts:
@@ -534,9 +506,7 @@ make_protected:
     - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE".pdf"
     - apk add --update qpdf
     - PASSWORD=$(date | md5sum | cut -d ' ' -f1)
-    - qpdf --object-streams=disable --encrypt "" "$PASSWORD" 256 \
-        --print=none --modify=none --extract=n -- \
-        interim/"$SOURCE_PDF_FILE" "$DEST_FILE_NAME_DATE"
+    - qpdf --object-streams=disable --encrypt "" "$PASSWORD" 256 --print=none --modify=none --extract=n -- interim/"$SOURCE_PDF_FILE" "$DEST_FILE_NAME_DATE"
     - mkdir -p my_nice_pdf/
     - mv "$DEST_FILE_NAME_DATE" my_nice_pdf/
   artifacts:

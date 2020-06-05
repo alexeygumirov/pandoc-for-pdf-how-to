@@ -1,4 +1,18 @@
 %%
+% #################################################
+% #      _    ____    __        __         _      #
+% #     / \  / ___|   \ \      / /__  _ __| | __  #
+% #    / _ \| |  _ ____\ \ /\ / / _ \| '__| |/ /  #
+% #   / ___ \ |_| |_____\ V  V / (_) | |  |   <   #
+% #  /_/   \_\____|      \_/\_/ \___/|_|  |_|\_\  #
+% #                                               #
+% # Alexey Gumirov's working PC config for the    #
+% # Windows Subsystem for Linux - Ubuntu.         #
+% #################################################
+% 
+%%% This template is modified to produce each chapter on
+%%% the new page. (c) Alexey Gumirov
+%
 % Copyright (c) 2017 - 2019, Pascal Wagler;  
 % Copyright (c) 2014 - 2019, John MacFarlane
 % 
@@ -288,8 +302,12 @@ $endif$
 $if(listings)$
 \usepackage{listings}
 \newcommand{\passthrough}[1]{#1}
-\lstset{defaultdialect=[5.3]Lua}
-\lstset{defaultdialect=[x86masm]Assembler}
+\lstset{defaultdialect=sh}
+% \lstset{framexleftmargin=0mm, frame=trbl,backgroundcolor=\color{blanchedalmond!5},numbers=left,numberstyle=\scriptsize}
+% \lstset{aboveskip=5mm,belowskip=5mm,xleftmargin=20pt,xrightmargin=5pt}
+% \lstset{prebreak={\raisebox{0ex}[0ex][0ex]}}
+% \lstset{postbreak={\raisebox{0ex}[0ex][0ex]\space}}
+\lstset{basicstyle=\footnotesize,breaklines=true,breakatwhitespace=true}
 $endif$
 $if(listings-no-page-break)$
 \usepackage{etoolbox}
@@ -545,7 +563,7 @@ $endif$
 % blockquote
 %
 \definecolor{blockquote-border}{RGB}{221,221,221}
-\definecolor{blockquote-text}{RGB}{119,119,119}
+\definecolor{blockquote-text}{RGB}{89,89,89}
 \usepackage{mdframed}
 \newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
 \renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
