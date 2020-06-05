@@ -675,7 +675,8 @@ $else$
   framexleftmargin = 2.5em,
 $endif$
   backgroundcolor  = \color{listing-background},
-  basicstyle       = \color{listing-text-color}\small\ttfamily{}\linespread{1.15}, % print whole listing small
+  % basicstyle       = \color{listing-text-color}\small\ttfamily{}\linespread{1.15}, % print whole listing small
+  basicstyle       = \color{listing-text-color}\footnotesize\ttfamily{}\linespread{1.15}, % print whole listing small
   breaklines       = true,
   frame            = single,
   framesep         = 0.6mm,

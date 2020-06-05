@@ -12,6 +12,7 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
 		- `subtitle` field is used in the footer instead of `author`.
         - blockqute font is darker than original which is better for reading.
         - code listings are wrapped on white spaces by default.
+        - code listins font size is set to "footnotesize".
     - Both templates you can find in the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
 - **texlive**
