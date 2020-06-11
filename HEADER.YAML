@@ -1,6 +1,6 @@
 ---
  title: "How to make PDF from MarkDown with Pandoc"
- author: "Alexey Gumirov"
+ author: "Author: Alexey Gumirov"
  date:
  subtitle: "Detailed manual for all"
  geometry: "left=2.54cm,right=2.54cm,top=1.91cm,bottom=1.91cm"
@@ -11,8 +11,21 @@
  titlepage-rule-height: 4
  logo: "files/logo.png"
  logo-width: 100 
+ page-background:
+ page-background-opacity:
  links-as-notes: true
  lot: true
  lof: true
  listings-disable-line-numbers: true
+ listings-no-page-break: false
+ disable-header-and-footer: false
+ header-left:
+ header-center:
+ header-right:
+ footer-left: "© Alexey Gumirov"
+ footer-center: "License: WTFPL"
+ footer-right:
+ footnotes-pretty: true
+ subparagraph: true
+ lang: en-US 
 ---

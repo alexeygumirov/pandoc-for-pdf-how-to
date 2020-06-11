@@ -575,7 +575,7 @@ $endif$
 % blockquote
 %
 \definecolor{blockquote-border}{RGB}{221,221,221}
-\definecolor{blockquote-text}{RGB}{89,89,89}
+\definecolor{blockquote-text}{RGB}{119,119,119}
 \usepackage{mdframed}
 \newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
 \renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
@@ -719,9 +719,8 @@ $else$
   framexleftmargin = 2.5em,
 $endif$
   backgroundcolor  = \color{listing-background},
-  basicstyle       = \color{listing-text-color}\linespread{1.2}\footnotesize\ttfamily{},
+  basicstyle       = \color{listing-text-color}\linespread{1.0}$if(code-block-font-size)$$code-block-font-size$$else$\small$endif$\ttfamily{},
   breaklines       = true,
-  breakatwhitespace = true,
   frame            = single,
   framesep         = 0.19em,
   rulecolor        = \color{listing-rule},
@@ -818,8 +817,6 @@ $if(beamer)$
 $else$
 $if(disable-header-and-footer)$
 $else$
-\usepackage{sectsty}
-\sectionfont{\clearpage}
 \usepackage{fancyhdr}
 
 \fancypagestyle{eisvogel-header-footer}{

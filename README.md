@@ -6,13 +6,14 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
 
 ### Tools
 
-- **pandoc**
-
-	- template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. I made following modifications:
-		- `subtitle` field is used in the footer instead of `author`.
-        - blockqute font is darker than original which is better for reading.
-        - code listings are wrapped on white spaces by default.
-        - code listins font size is set to "footnotesize".
+- **Pandoc**
+	- Template: I use my template which is a slightly modified [eisvogel.latex][URL 1] template. I made following changes:
+        - Each paragraph starts from the new page.
+        - Block quote font is darker than original which is better for reading.
+            - Original color is `rgb{119,119,119}`, mine setting is `rgb{89,89,89}`.
+        - Code listings are wrapped on white spaces by default.
+        - Code listins font size is set to "footnotesize". And original template parameter does not work (it, actually, never worked properly).
+        - Line interval in code listings is set to `1.2`.
     - Both templates you can find in the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
 - **texlive**
@@ -59,7 +60,7 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
 
 ```yaml
  title: "How to make PDF from MarkDown with Pandoc"
- author: "Alexey Gumirov"
+ author: "Author: Alexey Gumirov"
  date:
  subtitle: "Detailed manual for all"
  geometry: "left=2.54cm,right=2.54cm,top=1.91cm,bottom=1.91cm"
@@ -69,14 +70,27 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  titlepage-rule-color: "CCCCCC"
  titlepage-rule-height: 4
  logo: "files/logo.png"
- logo-width: 100
+ logo-width: 100 
+ page-background:
+ page-background-opacity:
  links-as-notes: true
  lot: true
  lof: true
  listings-disable-line-numbers: true
+ listings-no-page-break: false
+ disable-header-and-footer: false
+ header-left:
+ header-center:
+ header-right:
+ footer-left: "© Alexey Gumirov"
+ footer-center: "License: WTFPL"
+ footer-right:
+ footnotes-pretty: true
+ subparagraph: true
+ lang: en-US 
 ```
 
-> Table of content, list of tables and list of figures are going in the following order: ToC, LoT and LoF. After LoF is always a page break.
+> Table of content, list of tables and list of figures are going in the following order: ToC, LoT and LoF. Each pages starts from the new line.
 
 Parameter **links-as-notes** enables putting of the URL links in the footnotes of the page.
 
@@ -118,12 +132,16 @@ It is important to mention that the order of options does matter. The instructio
 
 ### Pandoc command
 
-Putting all toghether in one command.
+Putting all together in one command.
+
+> All Pandoc commands are for the Pandoc version 2.x.
 
 ```sh
-pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US HEADER.YAML $SOURCE.md
+pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML $SOURCE.md
 ```
+
+> Because I use YAML header, all `-V` parameters I put there.
 
 If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` option: ```-M date="$DATE"```.
 
@@ -131,8 +149,8 @@ Then **pandoc** command will look like that:
 
 ```sh
 DATE=$(date "+%d %B %Y")
-pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -M date="$DATE" -V lang=en-US HEADER.YAML $SOURCE.md
+pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 -M date="$DATE" HEADER.YAML $SOURCE.md
 ```
 
 Options of the **pandoc** command mean following:
@@ -172,7 +190,7 @@ Additional useful options of the **pandoc** command are:
 
 - `--listings`: It creates nice presentation of the raw code (like shell code or programming code).
 - `--columns`: Specify length of lines in characters. This affects text wrapping in the generated source code (see --wrap). It also affects calculation of column widths for plain text tables.
-- `--number-section`: Automatically creates enumerated headers. 
+- `--number-sections`: Automatically creates enumerated headers. 
 - `--default-image-extension`: If you want Pandoc to insert only one type of images, e.g. PNG, then you shall add `--default-image-extension png` in the command line.
 
 #### List of figures
@@ -205,6 +223,8 @@ Table: Sample table
 | A    |   1   |
 | B    |   2   |
 
+> For the convenient formatting of your tables in Markdown files, I recommend to use the following VIM plugin: [_VIM Table Mode_](https://github.com/dhruvasagar/vim-table-mode).
+
 #### Processing of multiple files
 
 When you create large amount of content, it is not convinient to use one large MarkDown file for it. Then it is better to split it in multiple MarkDown files and organize them in a separate folder using names with leading sequence numbers, like here:
@@ -226,8 +246,8 @@ total 197K
 - Apply following Pandoc command:
 
 ```sh
-pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US HEADER.YAML content/*.md
+pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
@@ -245,8 +265,8 @@ HEADER.YAML
 And then my PDF generation command looks the following:
 
 ```sh
-pandoc -s -S -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes" --template eisvogel_mod --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US $(cat INDEX) 
+pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 $(cat INDEX) 
 ```
 
 ### Important notes about MarkDown file formatting for PDF processing
@@ -326,7 +346,7 @@ DATA_DIR="pandoc"
 
 SOURCE_FORMAT="markdown_github+yaml_metadata_block+\
     implicit_figures+table_captions+footnotes+smart"
-pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-section -V subparagraph --dpi=300 --pdf-engine xelatex -M date="$DATE" -V lang=en-US $(cat "$INDEX_FILE") >&1
+pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-sections --dpi=300 --pdf-engine xelatex -M date="$DATE" $(cat "$INDEX_FILE") >&1
 
 OWNER_PASSWORD=$(date | md5sum | cut -d ' ' -f 1)
 
@@ -431,14 +451,14 @@ my_nice_pdf:
     DEST_FILE_NAME: "my_nice_document"
     TEMPLATE: "eisvogel_mod"
     SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+\
-        implicit_figures+table_captions+footnotes"
+        implicit_figures+table_captions+footnotes+smart"
     DATA_DIR: "pandoc"
   script:
     - DATE=$(date +_%Y-%m-%d)
     - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE
     - DATE=$(date "+%d %B %Y")
     - cd "$SOURCE_DIR"
-    - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US $(cat "$INDEX_FILE") >&1
+    - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --listings --columns=50 --number-sections --toc --dpi=300 $(cat "$INDEX_FILE") >&1
     - mkdir -p my_nice_pdf
     - mv $DEST_FILE_NAME_DATE.pdf "$CI_PROJECT_DIR"/my_nice_pdf/
   stage: build
@@ -476,13 +496,13 @@ make_unprotected:
     DEST_FILE_NAME: "content.pdf"
     TEMPLATE: "eisvogel_mod"
     SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+\
-        implicit_figures+table_captions+footnotes"
+        implicit_figures+table_captions+footnotes+smart"
     DATA_DIR: "pandoc"
   stage: makepdf
   script:
     - DATE=$(date "+%d %B %Y")
     - cd "$SOURCE_DIR"
-    - pandoc -s -o "$DEST_FILE_NAME" -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --listings --columns=50 --number-section -V subparagraph --toc --dpi=300 -V lang=en-US $(cat "$INDEX_FILE") >&1
+    - pandoc -s -o "$DEST_FILE_NAME" -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --listings --columns=50 --number-sections --toc --dpi=300 $(cat "$INDEX_FILE") >&1
     - mkdir -p interim/
     - mv "$DEST_FILE_NAME" "$CI_PROJECT_DIR"/interim/
   artifacts:
