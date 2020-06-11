@@ -25,7 +25,6 @@
  footer-left: "© Alexey Gumirov"
  footer-center: "License: WTFPL"
  footer-right:
- footnotes-pretty: true
  subparagraph: true
  lang: en-US 
 ---

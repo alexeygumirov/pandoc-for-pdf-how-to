@@ -85,7 +85,6 @@ This YAML block in the beginning of the MarkDown file defines parameters used by
  footer-left: "© Alexey Gumirov"
  footer-center: "License: WTFPL"
  footer-right:
- footnotes-pretty: true
  subparagraph: true
  lang: en-US 
 ```
