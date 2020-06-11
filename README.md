@@ -441,7 +441,7 @@ The example of the pipeline below will allow you to produce PDF automatically us
 The `.gitlab-ci.yml` has the following content:
 
 ```yaml
-image: knsit/pandoc:v2.7.2
+image: knsit/pandoc:latest
 my_nice_pdf:
   variables:
     SOURCE_DIR: "content"
@@ -487,7 +487,7 @@ stages:
 - protect
 
 make_unprotected:
-  image: knsit/pandoc:v2.7.2
+  image: knsit/pandoc:latest
   variables:
     SOURCE_DIR: "content"
     INDEX_FILE: "INDEX"
