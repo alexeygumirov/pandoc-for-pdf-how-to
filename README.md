@@ -434,8 +434,6 @@ HEADER.YAML
 
 To create PDF I use `knsit/pandoc` Docker container. This container has newer version of the **pandoc** therefore instead of `-S` optoin I use `+smart` extension in the `-f` option.
 
-> **Note:** After update of Pandoc engine to version 2.7.2 PDF generation is broken. Therefore I use v2.7 of Pandoc engine.
-
 ### Single stage pipeline
 
 The example of the pipeline below will allow you to produce PDF automatically using GitLab CI engine.
@@ -443,7 +441,7 @@ The example of the pipeline below will allow you to produce PDF automatically us
 The `.gitlab-ci.yml` has the following content:
 
 ```yaml
-image: knsit/pandoc:v2.7
+image: knsit/pandoc:v2.7.2
 my_nice_pdf:
   variables:
     SOURCE_DIR: "content"
@@ -489,7 +487,7 @@ stages:
 - protect
 
 make_unprotected:
-  image: knsit/pandoc:v2.7
+  image: knsit/pandoc:v2.7.2
   variables:
     SOURCE_DIR: "content"
     INDEX_FILE: "INDEX"
