@@ -1,4 +1,4 @@
-# How to make PDF from MarkDown with Pandoc 
+# How to make PDF from MarkDown with Pandoc
 
 How-To, templates and commands to produce PDF documents from MarkDown files.
 
@@ -137,7 +137,8 @@ Putting all together in one command.
 
 ```sh
 pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML $SOURCE.md
+ implicit_figures+table_captions+footnotes+smart+header_attributes" \
+ --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML $SOURCE.md
 ```
 
 > Because I use YAML header, all `-V` parameters I put there.
@@ -149,7 +150,7 @@ Then **pandoc** command will look like that:
 ```sh
 DATE=$(date "+%d %B %Y")
 pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 -M date="$DATE" HEADER.YAML $SOURCE.md
+ implicit_figures+table_captions+footnotes+smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 -M date="$DATE" HEADER.YAML $SOURCE.md
 ```
 
 Options of the **pandoc** command mean following:
@@ -167,8 +168,9 @@ Options of the **pandoc** command mean following:
 	- `table_captions`: A caption may optionally be provided for all 4 kinds of supported Markdown tables. A caption is a paragraph beginning with the string `Table:` (or just `:`), which will be stripped off. It may appear either before or after the table.
 	- `footnotes`: Footnotes in the Pandoc Markdown format. For more details please go to [Pandoc manual page](https://pandoc.org/MANUAL.html#footnotes). 
     - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this:
+    - `header_attributes`: Headings can be assigned attributes using this syntax at the end of the line containing the heading text: `{#identifier .class .class key=value key=value}`. For example, to make chapter unnumbered use `{.unnumbered}` or `{-}`.
 
-`markdown_github+yaml_metadata_block+implicit_figures+tables_captions+smart+footnotes`.
+`markdown_github+yaml_metadata_block+implicit_figures+tables_captions+smart+footnotes+header_attributes`.
 
 - `--template FILE`: Use `FILE` as a custom template for the generated document.  Implies `--standalone`.
 - `--toc`: `--table-of-contents`
@@ -246,7 +248,7 @@ total 197K
 
 ```sh
 pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML content/*.md
+ implicit_figures+table_captions+footnotes+smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
@@ -265,7 +267,7 @@ And then my PDF generation command looks the following:
 
 ```sh
 pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 $(cat INDEX) 
+ implicit_figures+table_captions+footnotes+smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 $(cat INDEX) 
 ```
 
 ### Important notes about MarkDown file formatting for PDF processing
@@ -344,7 +346,7 @@ DATE=$(date "+%d %B %Y")
 DATA_DIR="pandoc"
 
 SOURCE_FORMAT="markdown_github+yaml_metadata_block+\
-    implicit_figures+table_captions+footnotes+smart"
+    implicit_figures+table_captions+footnotes+smart+header_attributes"
 pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-sections --dpi=300 --pdf-engine xelatex -M date="$DATE" $(cat "$INDEX_FILE") >&1
 
 OWNER_PASSWORD=$(date | md5sum | cut -d ' ' -f 1)
@@ -353,6 +355,23 @@ qpdf --object-streams=disable --encrypt "" "$OWNER_PASSWORD" 256 --print=none --
 ```
 
 Links to [`HEADER.YAML`][LINK 5] and [`INDEX`][Link 8] files.
+
+# Example of the unnumbered chapter {.unnumbered}
+
+If you want some chapters be without numbers (e.g. Annex or Preface), you can use so called **header attributes**, represented as a `{#identifier .class .class key=value key=value}` after the header.
+
+For example, to exclude this chapter header from numbering, Markdown code can look like:
+
+```
+# Example of the unnumbered chapter {.unnumbered}
+```
+
+or
+
+```
+# Example of the unnumbered chapter {-}
+```
+
 
 # Automation of PDF creation
 
@@ -448,7 +467,7 @@ my_nice_pdf:
     DEST_FILE_NAME: "my_nice_document"
     TEMPLATE: "eisvogel_mod"
     SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+\
-        implicit_figures+table_captions+footnotes+smart"
+        implicit_figures+table_captions+footnotes+smart+header_attributes"
     DATA_DIR: "pandoc"
   script:
     - DATE=$(date +_%Y-%m-%d)
@@ -493,7 +512,7 @@ make_unprotected:
     DEST_FILE_NAME: "content.pdf"
     TEMPLATE: "eisvogel_mod"
     SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+\
-        implicit_figures+table_captions+footnotes+smart"
+        implicit_figures+table_captions+footnotes+smart+header_attributes"
     DATA_DIR: "pandoc"
   stage: makepdf
   script:
@@ -537,7 +556,6 @@ make_protected:
     - content/INDEX
     - content/content.md
 ```
-
 
 <!-- URLs and Links -->
 

@@ -11,7 +11,13 @@ TEMPLATE="eisvogel_mod.latex"
 DATE=$(date "+%d %B %Y")
 DATA_DIR="pandoc"
 
-SOURCE_FORMAT="markdown_github+yaml_metadata_block+implicit_figures+table_captions+footnotes+smart"
+SOURCE_FORMAT="markdown_github\
++yaml_metadata_block\
++implicit_figures\
++table_captions\
++footnotes\
++smart\
++header_attributes"
 
 pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-section --dpi=300 --pdf-engine xelatex -M date="$DATE" $(cat "$INDEX_FILE") >&1
 
