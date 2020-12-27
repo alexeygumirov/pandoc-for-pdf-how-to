@@ -356,7 +356,7 @@ qpdf --object-streams=disable --encrypt "" "$OWNER_PASSWORD" 256 --print=none --
 
 Links to [`HEADER.YAML`][LINK 5] and [`INDEX`][Link 8] files.
 
-# Example of the unnumbered chapter {.unnumbered}
+# Example of the unnumbered chapter {-}
 
 If you want some chapters be without numbers (e.g. Annex or Preface), you can use so called **header attributes**, represented as a `{#identifier .class .class key=value key=value}` after the header.
 
@@ -371,7 +371,7 @@ or
 ```
 # Example of the unnumbered chapter {-}
 ```
-
+> **Note**: This syntax is not compatible with the Github flavored Markdown.
 
 # Automation of PDF creation
 
