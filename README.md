@@ -135,7 +135,7 @@ Putting all together in one command.
 
 > All Pandoc commands are for the Pandoc version 2.x.
 
-> Since 2.11 Pandoc warns that source format `markdown_github` is deprecated.
+> Since version 2.11 Pandoc warns that source format `markdown_github` is deprecated.
 > For my formatting following replacement works: `markdown_github` -> `markdown_strict+pipe_tables+backtick_code_blocks`. Below all scripts are given with the new `markdown_strict` source format.
 
 ```sh
