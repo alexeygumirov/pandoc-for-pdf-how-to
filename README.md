@@ -135,10 +135,15 @@ Putting all together in one command.
 
 > All Pandoc commands are for the Pandoc version 2.x.
 
+> Since 2.11 Pandoc warns that source format `markdown_github` is depreceted.
+> For my formatting following replacement works: `markdown_github` -> `markdown_strict+pipe_tables+backtick_code_blocks`. Below all scripts are given with the new `markdown_strict` source format.
+
 ```sh
-pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart+header_attributes" \
- --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML $SOURCE.md
+pandoc -s -o $DEST.pdf -f "markdown_strict+pipe_tables+\
+ backtick_code_blocks+yaml_metadata_block+implicit_figures+
+ table_captions+footnotes+smart+header_attributes" \
+ --template eisvogel_mod --listings --columns=50 --number-sections \
+ --toc --dpi=300 HEADER.YAML $SOURCE.md
 ```
 
 > Because I use YAML header, all `-V` parameters I put there.
@@ -149,8 +154,10 @@ Then **pandoc** command will look like that:
 
 ```sh
 DATE=$(date "+%d %B %Y")
-pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 -M date="$DATE" HEADER.YAML $SOURCE.md
+pandoc -s -o $DEST.pdf -f "markdown_strict+pipe_tables+
+ backtick_code_blocks+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+\
+ smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 -M date="$DATE" HEADER.YAML $SOURCE.md
 ```
 
 Options of the **pandoc** command mean following:
@@ -170,7 +177,10 @@ Options of the **pandoc** command mean following:
     - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this:
     - `header_attributes`: Headings can be assigned attributes using this syntax at the end of the line containing the heading text: `{#identifier .class .class key=value key=value}`. For example, to make chapter unnumbered use `{.unnumbered}` or `{-}`.
 
-`markdown_github+yaml_metadata_block+implicit_figures+tables_captions+smart+footnotes+header_attributes`.
+```sh
+markdown_strict+pipe_tables+backtick_code_blocks+yaml_metadata_block+\
+implicit_figures+tables_captions+smart+footnotes+header_attributes
+```
 
 - `--template FILE`: Use `FILE` as a custom template for the generated document.  Implies `--standalone`.
 - `--toc`: `--table-of-contents`
@@ -247,8 +257,10 @@ total 197K
 - Apply following Pandoc command:
 
 ```sh
-pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML content/*.md
+pandoc -s -o $DEST.pdf -f "markdown_strict+pipe_tables+
+ backtick_code_blocks+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+\
+ smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 HEADER.YAML content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
@@ -266,8 +278,10 @@ HEADER.YAML
 And then my PDF generation command looks the following:
 
 ```sh
-pandoc -s -o $DEST.pdf -f "markdown_github+yaml_metadata_block+\
- implicit_figures+table_captions+footnotes+smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 $(cat INDEX) 
+pandoc -s -o $DEST.pdf -f "markdown_strict+pipe_tables+\
+ backtick_code_blocks+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+\
+ smart+header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --toc --dpi=300 $(cat INDEX) 
 ```
 
 ### Important notes about MarkDown file formatting for PDF processing
@@ -345,8 +359,16 @@ TEMPLATE="eisvogel_mod.latex"
 DATE=$(date "+%d %B %Y")
 DATA_DIR="pandoc"
 
-SOURCE_FORMAT="markdown_github+yaml_metadata_block+\
-    implicit_figures+table_captions+footnotes+smart+header_attributes"
+SOURCE_FORMAT="markdown_strict
++pipe_tables\
++backtick_code_blocks\
++yaml_metadata_block\
++implicit_figures\
++table_captions\
++footnotes\
++smart\
++header_attributes"
+
 pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-sections --dpi=300 --pdf-engine xelatex -M date="$DATE" $(cat "$INDEX_FILE") >&1
 
 OWNER_PASSWORD=$(date | md5sum | cut -d ' ' -f 1)
@@ -466,8 +488,10 @@ my_nice_pdf:
     INDEX_FILE: "INDEX"
     DEST_FILE_NAME: "my_nice_document"
     TEMPLATE: "eisvogel_mod"
-    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+\
-        implicit_figures+table_captions+footnotes+smart+header_attributes"
+    SOURCE_FORMAT: "markdown_strict+pipe_tables+\
+        backtick_code_blocks+yaml_metadata_block+\
+        smart+implicit_figures+table_captions+\
+        footnotes+smart+header_attributes"
     DATA_DIR: "pandoc"
   script:
     - DATE=$(date +_%Y-%m-%d)
@@ -511,8 +535,10 @@ make_unprotected:
     INDEX_FILE: "INDEX"
     DEST_FILE_NAME: "content.pdf"
     TEMPLATE: "eisvogel_mod"
-    SOURCE_FORMAT: "markdown_github+yaml_metadata_block+smart+\
-        implicit_figures+table_captions+footnotes+smart+header_attributes"
+    SOURCE_FORMAT: "markdown_strict+pipe_tables+\
+        backtick_code_blocks+yaml_metadata_block+\
+        smart+implicit_figures+table_captions+\
+        footnotes+smart+header_attributes"
     DATA_DIR: "pandoc"
   stage: makepdf
   script:

@@ -11,7 +11,9 @@ TEMPLATE="eisvogel_mod.latex"
 DATE=$(date "+%d %B %Y")
 DATA_DIR="pandoc"
 
-SOURCE_FORMAT="markdown_github\
+SOURCE_FORMAT="markdown_strict\
++backtick_code_blocks\
++pipe_tables\
 +yaml_metadata_block\
 +implicit_figures\
 +table_captions\
