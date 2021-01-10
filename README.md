@@ -140,15 +140,21 @@ Putting all together in one command.
 
 ```sh
 pandoc -s -o $DEST.pdf -f "markdown_strict+pipe_tables+\
- backtick_code_blocks+yaml_metadata_block+implicit_figures+
- table_captions+footnotes+smart+header_attributes" \
+ backtick_code_blocks+yaml_metadata_block+\
+ implicit_figures+table_captions+footnotes+smart+header_attributes" \
  --template eisvogel_mod --listings --columns=50 --number-sections \
  --toc --dpi=300 HEADER.YAML $SOURCE.md
 ```
 
 > Because I use YAML header, all `-V` parameters I put there.
 
-If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line: ```-M date="`date "+%d %B %Y"`"```. Or you can define date in the script variable ```DATE=$date(date "+%d %B %Y")``` and then use this variable in the `-M` option: ```-M date="$DATE"```.
+If you want to put current date in the cover page automatically, then you can add following parameter in the **pandoc** command line:
+
+```sh
+-M date="`date "+%d %B %Y"`"
+```
+
+Or you can define date in the script variable `DATE=$date(date "+%d %B %Y")` and then use this variable in the `-M` option: `-M date="$DATE"`.
 
 Then **pandoc** command will look like that:
 
@@ -163,7 +169,6 @@ pandoc -s -o $DEST.pdf -f "markdown_strict+pipe_tables+
 Options of the **pandoc** command mean following:
 
 - `-s`: Standalone document.
-- `-S`: `--smart`
 
     - Produce  typographically  correct  output,  converting  straight  quotes  to  curly  quotes, --- to em-dashes, -- to en-dashes, and ... to   ellipses.  Nonbreaking spaces are inserted after certain abbreviations, such as “Mr.” (Note: This option is  selected  automatically  when   the output format is latex or context, unless `--no-tex-ligatures` is used.  It has no effect for latex input.)
     > - In newer versions of **pandoc** this switch was removed and you shall use `+smart` extension in the `-f` option.
@@ -171,16 +176,15 @@ Options of the **pandoc** command mean following:
 - `-f FORMAT` or `-r FORMAT`:
 
     - Specify input format. `FORMAT` can be `native` (native Haskell), `json` (JSON version of native AST), `markdown` (pandoc's extended Markdown), `markdown_strict`(original  unextended  Markdown),  `markdown_phpextra` (PHP Markdown Extra), `markdown_github` (GitHub-Flavored Markdown), `commonmark` (CommonMark Markdown), `textile` (Textile), `rst` (reStructuredText), `html` (HTML), `docbook` (DocBook), `t2t` (txt2tags), `docx` (docx), `odt` (ODT), `epub` (EPUB), `opml` (OPML), `org` (Emacs Org mode), `mediawiki` (MediaWiki markup), `twiki` (TWiki markup), `haddock` (Haddock markup), or `latex` (LaTeX).  If `+lhs` is appended to `markdown`, `rst`, `latex`, or `html`, the input will be treated as literate Haskell source. Markdown syntax extensions can be individually enabled or disabled by appending `+EXTENSION` or `-EXTENSION` to the format name.  So, for example, `markdown_strict+footnotes+definition_lists` is strict Markdown with footnotes and definition lists enabled, and `markdown-pipe_tables+hard_line_breaks`  is  pandoc's  Markdown  without pipe tables and with hard line breaks.
-	- `implicit_figures`: An image with nonempty alt text, occurring by itself in a paragraph, will be rendered as a figure with a caption. The image’s alt text will be used as the caption. This extension is very useful when you need to autogenerate captions for figures in the markdown reference format like: ``` ![This is the caption](/url/of/image.png) ```
-	- `table_captions`: A caption may optionally be provided for all 4 kinds of supported Markdown tables. A caption is a paragraph beginning with the string `Table:` (or just `:`), which will be stripped off. It may appear either before or after the table.
+    - `backtick_code_blocks`: In addition to standard indented code blocks, pandoc supports fenced code blocks. These begin with a row of three or more backticks (\`) and end with a row of backticks that must be at least as long as the starting row.
 	- `footnotes`: Footnotes in the Pandoc Markdown format. For more details please go to [Pandoc manual page](https://pandoc.org/MANUAL.html#footnotes). 
-    - Therefore if `-S` is not working then option `-f` shall be used with `+smart` extension. E.g. for this particular document the option with parameters will look like this:
     - `header_attributes`: Headings can be assigned attributes using this syntax at the end of the line containing the heading text: `{#identifier .class .class key=value key=value}`. For example, to make chapter unnumbered use `{.unnumbered}` or `{-}`.
-
-```sh
-markdown_strict+pipe_tables+backtick_code_blocks+yaml_metadata_block+\
-implicit_figures+tables_captions+smart+footnotes+header_attributes
-```
+	- `implicit_figures`: An image with nonempty alt text, occurring by itself in a paragraph, will be rendered as a figure with a caption. The image’s alt text will be used as the caption. This extension is very useful when you need to autogenerate captions for figures in the markdown reference format like: `![This is the caption](/url/of/image.png)`
+    - `pipe_tables`: Table syntax identical to Github and PHP Markdown Extra Tables.
+    - `smart`: Produce  typographically  correct  output,  converting  straight  quotes  to  curly  quotes, --- to em-dashes, -- to en-dashes, and ... to   ellipses.  Nonbreaking spaces are inserted after certain abbreviations, such as “Mr.” (Note: This option is  selected  automatically  when   the output format is latex or context, unless `--no-tex-ligatures` is used.  It has no effect for latex input.)
+    - `strikeout`: To strikeout a section of text with a horizontal line, begin and end it with `~~`.
+	- `table_captions`: A caption may optionally be provided for all 4 kinds of supported Markdown tables. A caption is a paragraph beginning with the string `Table:` (or just `:`), which will be stripped off. It may appear either before or after the table.
+    - `yaml_metadata_block`: A YAML metadata block is a valid YAML object, delimited by a line of three hyphens (---) at the top and a line of three hyphens (---) or three dots (...) at the bottom. A YAML metadata block may occur anywhere in the document, but if it is not at the beginning, it must be preceded by a blank line. 
 
 - `--template FILE`: Use `FILE` as a custom template for the generated document.  Implies `--standalone`.
 - `--toc`: `--table-of-contents`
