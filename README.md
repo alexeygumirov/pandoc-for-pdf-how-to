@@ -12,7 +12,7 @@ How-To, templates and commands to produce PDF documents from MarkDown files.
         - Block quote font is darker than original which is better for reading.
             - Original color is `rgb{119,119,119}`, mine setting is `rgb{89,89,89}`.
         - Code listings are wrapped on white spaces by default.
-        - Code listins font size is set to "footnotesize". And original template parameter does not work (it, actually, never worked properly).
+        - Code listings font size is set to "footnotesize". And original template parameter does not work (it, actually, never worked properly).
         - Line interval in code listings is set to `1.2`.
     - Both templates you can find in the repository of this project. Original template [eisvogel.latex][LINK 2] and my modified [eisvogel_mod.latex][LINK 3]
 
@@ -110,7 +110,7 @@ To re-sample image to 300 DPI:
 convert $SOURCE_IMG_FILE -units PixelsPerInch -resample 300 $TARGET_IMG_FILE.png
 ```
 
-After rasampling image has to be brought to the proper size. Command resizes picture to 1700 pixels of width and sets DPI meta-data to 300.
+After re-sampling image has to be brought to the proper size. Command resizes picture to 1700 pixels of width and sets DPI meta-data to 300.
 
 ```sh
 convert $SOURCE_IMG_FILE -units PixelsPerInch -resize 1700x -density 300 $TARGET_IMG_FILE.png
@@ -135,7 +135,7 @@ Putting all together in one command.
 
 > All Pandoc commands are for the Pandoc version 2.x.
 
-> Since 2.11 Pandoc warns that source format `markdown_github` is depreceted.
+> Since 2.11 Pandoc warns that source format `markdown_github` is deprecated.
 > For my formatting following replacement works: `markdown_github` -> `markdown_strict+pipe_tables+backtick_code_blocks`. Below all scripts are given with the new `markdown_strict` source format.
 
 ```sh
