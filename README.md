@@ -448,7 +448,7 @@ Sometimes there is a need to make an header of level 4 and lower.
 
 ```markdown
 #### Level 4 header
-#### Level 5 header
+##### Level 5 header
 ```
 
 The problem of Pandoc is that it puts line break after header of levels 1 to 3, but when header is of level 4 and below, then line break is not added.
