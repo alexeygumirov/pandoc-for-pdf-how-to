@@ -457,7 +457,15 @@ The problem of Pandoc is that it puts line break after header of levels 1 to 3, 
 
 #### Level 4 header
 
-Text of chapter below header, but Pandoc does not put any break after it. Let's fix this broken formatting.
+Text of chapter below header, but Pandoc does not put any break after it.
+
+```markdown
+#### Level 4 header
+
+Text of chapter below header, but Pandoc does not put any break after it.
+```
+
+Let's fix this broken formatting.
 
 #### Level 4 header with forced line break after it
 \
