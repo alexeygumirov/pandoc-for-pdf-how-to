@@ -2,6 +2,11 @@
 
 How-To, templates and commands to produce PDF documents from MarkDown files.
 
+**Update**: Changes from `xelatex` to `lualatex`.
+> I had issues with PDF creation using `xelatex` engine which I could not fix. My script worked on my home Manjaro Linux, but did not work on Ubuntu 20.04 with my corporate setup. 
+> After some troubleshooting I changed pdf engine to `lualatex` and things went back to normal.
+> `lualatex` engine is slower, than `xelatex`, but it gives better output.
+
 ## How-to for docs preparation
 
 ### Tools
@@ -51,6 +56,10 @@ sudo apt-get install texlive-xetex
 ```
 
 Extra LaTeX packages are needed for **eisvogel** template to work. I also install XeTeX because if you have text with some special symbols, XeTeX can process it properly.
+
+### Fonts
+
+**Source Code Pro** font must be installed.
 
 ### Instructions and commands
 
@@ -156,7 +165,7 @@ pandoc -s -o $DEST.pdf \
     +footnotes\
     +smart\
     +escaped_line_breaks\
-    +header_attributes" --template eisvogel_mod --toc --listings --columns=50 --number-sections --pdf-engine xelatex --dpi=300 HEADER.YAML $SOURCE.md
+    +header_attributes" --template eisvogel_mod --toc --listings --columns=50 --number-sections --pdf-engine lualatex --dpi=300 HEADER.YAML $SOURCE.md
 ```
 
 > Because I use YAML header, all `-V` parameters I put there.
@@ -184,7 +193,7 @@ pandoc -s -o $DEST.pdf \
     +footnotes\
     +smart\
     +escaped_line_breaks\
-    +header_attributes" --template eisvogel_mod --toc --listings --columns=50 --number-sections --pdf-engine xelatex --dpi=300 -M date="$DATE" HEADER.YAML $SOURCE.md
+    +header_attributes" --template eisvogel_mod --toc --listings --columns=50 --number-sections --pdf-engine lualatex --dpi=300 -M date="$DATE" HEADER.YAML $SOURCE.md
 ```
 
 Options of the **pandoc** command mean following:
@@ -295,7 +304,7 @@ pandoc -s -o $DEST.pdf \
     +footnotes\
     +smart\
     +escaped_line_breaks\
-    +header_attributes" --template eisvogel_mod --toc --listings --columns=50 --number-sections --pdf-engine xelatex --toc --dpi=300 HEADER.YAML content/*.md
+    +header_attributes" --template eisvogel_mod --toc --listings --columns=50 --number-sections --pdf-engine lualatex --toc --dpi=300 HEADER.YAML content/*.md
 ```
 
 This command will take all MarkDown files from the **"content"** folder and convert them into enumerated order into a single PDF file.
@@ -324,7 +333,7 @@ pandoc -s -o $DEST.pdf \
     +footnotes\
     +smart\
     +escaped_line_breaks\
-    +header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --pdf-engine xelatex --toc --dpi=300 $(cat INDEX) 
+    +header_attributes" --template eisvogel_mod --listings --columns=50 --number-sections --pdf-engine lualatex --toc --dpi=300 $(cat INDEX) 
 ```
 
 
@@ -394,7 +403,7 @@ SOURCE_FORMAT="markdown_strict
 +escaped_line_breaks\
 +header_attributes"
 
-pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-sections --dpi=300 --pdf-engine xelatex -M date="$DATE" $(cat "$INDEX_FILE") >&1
+pandoc -s -o "$DEST_FILE_NAME" -f "$SOURCE_FORMAT" --data-dir="$DATA_DIR" --template "$TEMPLATE" --toc --listings --columns=50 --number-sections --dpi=300 --pdf-engine lualatex -M date="$DATE" $(cat "$INDEX_FILE") >&1
 
 OWNER_PASSWORD=$(date | md5sum | cut -d ' ' -f 1)
 
@@ -585,7 +594,7 @@ my_nice_pdf:
     - DEST_FILE_NAME_DATE=$DEST_FILE_NAME$DATE
     - DATE=$(date "+%d %B %Y")
     - cd "$SOURCE_DIR"
-    - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --toc --listings --columns=50 --number-sections --pdf-engine xelatex --dpi=300 $(cat "$INDEX_FILE") >&1
+    - pandoc -s -o $DEST_FILE_NAME_DATE.pdf -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --toc --listings --columns=50 --number-sections --pdf-engine lualatex --dpi=300 $(cat "$INDEX_FILE") >&1
     - mkdir -p my_nice_pdf
     - mv $DEST_FILE_NAME_DATE.pdf "$CI_PROJECT_DIR"/my_nice_pdf/
   stage: build
@@ -632,7 +641,7 @@ make_unprotected:
   script:
     - DATE=$(date "+%d %B %Y")
     - cd "$SOURCE_DIR"
-    - pandoc -s -o "$DEST_FILE_NAME" -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --toc --listings --columns=50 --number-sections --pdf-engine xelatex --dpi=300 $(cat "$INDEX_FILE") >&1
+    - pandoc -s -o "$DEST_FILE_NAME" -f $SOURCE_FORMAT --data-dir="$DATA_DIR" --template $TEMPLATE -M date="$DATE" --toc --listings --columns=50 --number-sections --pdf-engine lualatex --dpi=300 $(cat "$INDEX_FILE") >&1
     - mkdir -p interim/
     - mv "$DEST_FILE_NAME" "$CI_PROJECT_DIR"/interim/
   artifacts:
