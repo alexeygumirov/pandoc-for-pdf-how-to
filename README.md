@@ -614,6 +614,7 @@ Parameter `changes` makes CI job run only when content of the YAML block or any 
 ### Pipeline to produce protected PDF
 
 The example of the pipeline below uses two stages to produce PDF protected from editing and copying:
+
 - First stage - to produce PDF using **knsit/pandoc** container.
 - Second stage - to produce protected PDF using **alpine** container.
 
