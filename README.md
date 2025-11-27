@@ -1,3 +1,13 @@
+# 👋 THIS REPOSITORY HAS MOVED! 👋
+
+**This repository is no longer actively maintained on GitHub. It has been archived and is read-only.**
+
+Please update your bookmarks and remotes to the new home on Codeberg:
+
+➡️ **[https://codeberg.org/alexeygumirov/pandoc-for-pdf-how-to](https://codeberg.org/alexeygumirov/pandoc-for-pdf-how-to)** ⬅️
+
+Thank you for your understanding and continued support!
+
 # How to make PDF from MarkDown with Pandoc
 
 How-To, templates and commands to produce PDF documents from MarkDown files.
